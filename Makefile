@@ -10,8 +10,11 @@ OBJ=$(SRC:%.c=%.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) libft/libft.a
 	$(CC) $^ -o $(NAME)
+
+libft/libft.a:
+	@make -C libft/
 
 %.o: $(SRC_FOLDER)/%.c
 	$(CC) $(CFLAGS) -c $^
@@ -19,19 +22,21 @@ $(NAME): $(OBJ)
 ######################################################
 
 run:
-	./$(NAME) a b c d
+	@./$(NAME) a b c d
 
 valgrind:
-	valgrind --leak-check=full ./$(NAME) a b c d
+	@valgrind --leak-check=full ./$(NAME) a b c d
 
 ######################################################
 
 clean:
-	rm -rf $(OBJ)
+	@rm -rf $(OBJ)
+	@make -C libft/ clean
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
+	@make -C libft/ fclean
 
 re: fclean all
 
-.PHONY: clean fclean re
+.PHONY: clean fclean re all
