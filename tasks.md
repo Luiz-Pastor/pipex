@@ -1,11 +1,12 @@
 # Esquema
+1. [X] Hacer funcion para encontrar ruta del comando a ejecutar
 1. [ ] Ejecutar el primer comando
-	- [ ] Crear pipe `pipe1`
-	- [ ] Hacer un `fork`
+	- [X] Crear pipe `pipe1`
+	- [X] Hacer un `fork`
 		1. Padre se queda esperando a hijo
 		2. Hijo:
-			- [ ] Rederigir entrada `stdin` a `infile`
-			- [ ] Leer todo el contenido del archivo `infile` 
+			- [ ] Leer argumentos de `infile`
+			- [ ] Guardar los argumentos + argumentos del comando en array NULL-terminated
 			- [ ] Rederigir salida `stdout` a `pipe1` 
 			- [ ] Ejecutar comando con `execv`
 
