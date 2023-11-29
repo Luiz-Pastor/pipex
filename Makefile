@@ -21,7 +21,7 @@ libft/libft.a:
 
 ######################################################
 
-run:
+run: all
 	@./$(NAME) a b c d
 
 valgrind:
