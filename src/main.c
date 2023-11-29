@@ -10,49 +10,144 @@
 #include <sys/wait.h>
 
 #include "../libft/libft.h"
+#include <limits.h>
 
-void	first_command(char *filename, int fd)
+char *find_path(char *command, char *paths)
 {
-	/* Funcion del hijo */
-	(void)filename, (void)fd;
-	for (int i = 0; i < 10000; i++)
-		printf("%d\n", i);
-	exit(0);
+	char	*slash;
+	char	*full_path;
+	char	**splited;
+	int		index = 0;
+	char	*res = NULL;
+
+	splited = ft_split(paths, ':');
+	while (splited[index])
+	{
+		slash = ft_strjoin(splited[index++], "/");
+		if (!slash)
+			return free_split(splited);
+		full_path = ft_strjoin(slash, command);
+		free(slash);
+		if (!full_path)
+			return free_split(splited);
+		if (access(full_path, X_OK) == 0)
+		{
+			res = full_path;
+			break;
+		}
+		free(full_path);
+	}
+	free_split(splited);
+	return res;
 }
 
-int manage(char **argv)
+static void	child_error(int fd)
 {
-	(void) argv;
+	write(fd, "0", 1);
+	exit(1);
+}
+
+int	split_length(char **spl)
+{
+	int	index;
+
+	index = 0;
+	while (spl[index])
+		index++;
+	return (index);
+}
+
+char	**get_arguments(char *filename, char **args)
+{
+	int		index;
+	char	**res;
+
+	(void)filename, (void)args, (void)index, (void)res;
+	return NULL;
+
+}
+
+void	first_command(char *filename, char *command, char **env, int fd)
+{
+	/* Funcion del hijo */
+	char	**splitted;
+	char	*path;
+	char	**arguments;
+
+	/* Dividimos el comando --> [comando] [argumento 1] [...] [NULL] */
+	splitted = ft_split(command, ' ');
+	if (!splitted)
+		child_error(fd); /* Error malloc */
+	
+	/* Buscamos la ruta absoluta del primer comando --> x/x/comando o NULL */
+	path = find_path(splitted[0], env[2]);
+	if (!path)
+		child_error(fd); /* No existe ruta */
+	printf("# %s #\n", path);
+	exit(0);
+	/* Obtenemos una array con todos los argumentos */
+	arguments = get_arguments(filename, &splitted[1]);
+	if (arguments)
+		child_error(fd);
+
+	/*
+		dup2(fd, STDOUT_FILENO);
+		execve(path, arguments, env);
+	*/
+}
+
+int manage(char **argv, char **env)
+{
+	(void) argv, (void)env;
 	int	pid;
 	int fd[2];
+	int res;
 
 	if (pipe(fd))
 		return printf("Error\n");
-
 	pid = fork();
 	if (pid == 0)
-		first_command(argv[1], fd[1]);
+		first_command(argv[1], argv[2], env, fd[1]);
 	
 	/* Padre */
 	wait(NULL);
-	printf("Alo\n");
+
+	exit(0);
+	/*close(fd[1]);
+	read(fd[0], &res, sizeof(int));*/
+	/*printf(">> %d\n", res);
+	printf("Alo\n");*/
 	
 	return 0;
 }
 
-int	main(int argc, char *argv[], char *env[])
+void leaks()
 {
-	(void) argc, (void)argv, (void)env;
+	system("leaks -q pipex");
+}
 
-	/*int	index = 0;*/
-	
+int	main(int argc, char *argv[], char *env[])
+{	
 	if (argc != 5)
 		return (printf("Usage: %s infile cmd1 cmd2 outfile\n", argv[0]));
 
-	return (manage(argv));
+	return manage(argv, env);
 
-	/*while (env[index])
-		printf("%s\n", env[index++]);*/
+
+}
+
+
+
+
+
+
+
+
+
+
+	/* int	index = -1;
+	while (env[++index])
+		printf("(%d) %s\n", index, env[index]);*/
 
 	/*
 		char **test = malloc(5 * sizeof(char *));
@@ -66,7 +161,3 @@ int	main(int argc, char *argv[], char *env[])
 		test[3] = NULL;
 		execve("/sbin/ping", test, env);
 	*/
-
-
-	return (0);
-}
