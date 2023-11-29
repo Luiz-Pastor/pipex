@@ -558,4 +558,6 @@ int		ft_strict_atoi(const char *str, int *flag);
  */
 int		ft_strcmp(const char *s1, const char *s2);
 
+void	*free_split(char **spl);
+
 #endif

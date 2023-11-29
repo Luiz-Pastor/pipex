@@ -90,3 +90,16 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	return (refill_matrix(memory, s, c));
 }
+
+void	*free_split(char **spl)
+{
+	int	index;
+
+	index = 0;
+	if (!spl)
+		return (NULL);
+	while (spl[index])
+		free(spl[index++]);
+	free(spl);
+	return (NULL);
+}
