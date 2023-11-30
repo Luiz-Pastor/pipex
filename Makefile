@@ -22,7 +22,7 @@ libft/libft.a:
 ######################################################
 
 run: all
-	@./$(NAME) a b c d
+	@./$(NAME) test.txt "grep -v OK" "grep CONSECUTIVE_NEWLINES" errors.log
 
 valgrind:
 	@valgrind --leak-check=full ./$(NAME) a b c d
