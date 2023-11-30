@@ -41,12 +41,6 @@ char *find_path(char *command, char *paths)
 	return res;
 }
 
-static void	child_error(int fd)
-{
-	write(fd, "0", 1);
-	exit(1);
-}
-
 int	split_length(char **spl)
 {
 	int	index;
@@ -57,43 +51,55 @@ int	split_length(char **spl)
 	return (index);
 }
 
-char	**get_arguments(char *filename, char **args)
+
+void	first_command(char *filename, char *command, char **env, int output)
 {
-	int		index;
-	char	**res;
-
-	(void)filename, (void)args, (void)index, (void)res;
-	return NULL;
-
-}
-
-void	first_command(char *filename, char *command, char **env, int fd)
-{
-	/* Funcion del hijo */
 	char	**splitted;
 	char	*path;
-	char	**arguments;
+	int		input;
 
-	/* Dividimos el comando --> [comando] [argumento 1] [...] [NULL] */
 	splitted = ft_split(command, ' ');
 	if (!splitted)
-		child_error(fd); /* Error malloc */
+		exit(1);
 	
-	/* Buscamos la ruta absoluta del primer comando --> x/x/comando o NULL */
-	path = find_path(splitted[0], env[2]);
+	path = find_path(splitted[0], env[14]);
 	if (!path)
-		child_error(fd); /* No existe ruta */
-	printf("# %s #\n", path);
-	exit(0);
-	/* Obtenemos una array con todos los argumentos */
-	arguments = get_arguments(filename, &splitted[1]);
-	if (arguments)
-		child_error(fd);
+		exit(1);
 
-	/*
-		dup2(fd, STDOUT_FILENO);
-		execve(path, arguments, env);
-	*/
+	input = open(filename, O_RDONLY);
+	if (input)
+	{
+		dup2(input, STDIN_FILENO);
+	}
+
+	dup2(output, STDOUT_FILENO);
+	if (execve(path, splitted, env))
+		exit(1);
+}
+
+void	second_command(int input, char *command, char **env, char *filename)
+{
+	char	**splitted;
+	char	*path;
+	int		output;
+
+	splitted = ft_split(command, ' ');
+	if (!splitted)
+		exit(-1);
+
+	path = find_path(splitted[0], env[14]);
+	if (!path)
+		exit(-1);
+
+	output = open(filename, O_WRONLY | O_CREAT, 0777);
+	if (output)
+	{
+		dup2(output, STDOUT_FILENO);
+	}
+
+	dup2(input, STDIN_FILENO);
+	if (execve(path, splitted, env))
+		exit(-1);
 }
 
 int manage(char **argv, char **env)
@@ -101,23 +107,45 @@ int manage(char **argv, char **env)
 	(void) argv, (void)env;
 	int	pid;
 	int fd[2];
-	int res;
+	int status = 0;
+	// int res;
+
+	char **del1 = ft_split(argv[2], ' ');
+	char **del2 = ft_split(argv[3], ' ');
+
+	if (!find_path(del1[0], env[14]) || !find_path(del2[0], env[14]))
+		exit(1);
+
 
 	if (pipe(fd))
 		return printf("Error\n");
 	pid = fork();
+	if (pid < 0)
+	{
+		printf("Error al hacer fork.\n");
+		close(fd[0]);
+		close(fd[1]);
+		exit(1);
+	}
 	if (pid == 0)
+	{
+		/* Hijo */
+		close(fd[0]);
 		first_command(argv[1], argv[2], env, fd[1]);
-	
-	/* Padre */
-	wait(NULL);
-
-	exit(0);
-	/*close(fd[1]);
-	read(fd[0], &res, sizeof(int));*/
-	/*printf(">> %d\n", res);
-	printf("Alo\n");*/
-	
+	}
+	else
+	{
+		/* Padre */
+		//waitpid(0, &status, 0);
+		wait(NULL);
+		if (status == -1)
+		{
+			printf("Ce fini\n");
+			exit(1);
+		}
+		close(fd[1]);
+		second_command(fd[0], argv[3], env, argv[4]);
+	}
 	return 0;
 }
 
@@ -130,6 +158,10 @@ int	main(int argc, char *argv[], char *env[])
 {	
 	if (argc != 5)
 		return (printf("Usage: %s infile cmd1 cmd2 outfile\n", argv[0]));
+
+	// int index = 0;
+	// while (env[index])
+	// 	printf("%s\n", env[index++]);
 
 	return manage(argv, env);
 
