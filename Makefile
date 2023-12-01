@@ -3,7 +3,8 @@ CC := cc
 CFLAGS := -Wall -Werror -Wextra
 ######################################################
 NAME = pipex
-SRC =	main.c
+SRC =	main.c	\
+		path.c
 SRC_FOLDER = src
 OBJ=$(SRC:%.c=%.o)
 ######################################################
