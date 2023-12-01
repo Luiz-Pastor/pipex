@@ -5,11 +5,15 @@
 	- [X] Hacer un `fork`
 		1. Padre se queda esperando a hijo
 		2. Hijo:
-			- [ ] Leer argumentos de `infile`
-			- [ ] Guardar los argumentos + argumentos del comando en array NULL-terminated
-			- [ ] Rederigir salida `stdout` a `pipe1` 
-			- [ ] Ejecutar comando con `execv`
+			- [X] Leer argumentos de `infile`
+			- [X] Guardar los argumentos + argumentos del comando en array NULL-terminated
+			- [X] Rederigir salida `stdout` a `pipe1` 
+			- [X] Ejecutar comando con `execv`
 
-2. [ ] Ejecutar el segundo comando
-	- [ ] Rederigir salida `stdout` a `outfile`
-	- [ ] Ejecutar `execv` con los argumentos de `pipe1`
+2. [X] Ejecutar el segundo comando
+	- [X] Rederigir salida `stdout` a `outfile`
+	- [X] Ejecutar `execv` con los argumentos de `pipe1`
+
+# Falta
+1. [ ] Gestionar errores del primer comando
+2. [ ] Gestionar errores del segundo comando
