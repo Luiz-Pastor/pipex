@@ -1,45 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/01 09:14:06 by lpastor-          #+#    #+#             */
+/*   Updated: 2023/12/01 09:14:06 by lpastor-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /* TODO: cambiar printf por write*/
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <string.h>
+#include "../inc/pipex.h"
 
-#include <sys/types.h>
-#include <sys/wait.h>
-
-#include "../libft/libft.h"
-#include <limits.h>
-
-char *find_path(char *command, char *paths)
-{
-	char	*slash;
-	char	*full_path;
-	char	**splited;
-	int		index = 0;
-	char	*res = NULL;
-
-	splited = ft_split(paths, ':');
-	while (splited[index])
-	{
-		slash = ft_strjoin(splited[index++], "/");
-		if (!slash)
-			return free_split(splited);
-		full_path = ft_strjoin(slash, command);
-		free(slash);
-		if (!full_path)
-			return free_split(splited);
-		if (access(full_path, X_OK) == 0)
-		{
-			res = full_path;
-			break;
-		}
-		free(full_path);
-	}
-	free_split(splited);
-	return res;
-}
 
 int	split_length(char **spl)
 {
@@ -51,7 +26,11 @@ int	split_length(char **spl)
 	return (index);
 }
 
-
+/*
+	- 1: Problema de memoria
+	- 2: No path
+	- 3: Mala ejecución
+*/
 void	first_command(char *filename, char *command, char **env, int output)
 {
 	char	**splitted;
@@ -62,14 +41,16 @@ void	first_command(char *filename, char *command, char **env, int output)
 	if (!splitted)
 		exit(1);
 	
-	path = find_path(splitted[0], env[14]);
+	path = find_path(splitted[0], env[get_path_index(env)]);
 	if (!path)
 		exit(1);
 
+	/* Tambien modificar */
 	input = open(filename, O_RDONLY);
 	if (input)
 	{
 		dup2(input, STDIN_FILENO);
+		close(input);
 	}
 
 	dup2(output, STDOUT_FILENO);
@@ -87,15 +68,13 @@ void	second_command(int input, char *command, char **env, char *filename)
 	if (!splitted)
 		exit(-1);
 
-	path = find_path(splitted[0], env[14]);
+	path = find_path(splitted[0], env[get_path_index(env)]);
 	if (!path)
 		exit(-1);
 
 	output = open(filename, O_WRONLY | O_CREAT, 0777);
 	if (output)
-	{
 		dup2(output, STDOUT_FILENO);
-	}
 
 	dup2(input, STDIN_FILENO);
 	if (execve(path, splitted, env))
@@ -107,15 +86,8 @@ int manage(char **argv, char **env)
 	(void) argv, (void)env;
 	int	pid;
 	int fd[2];
-	int status = 0;
+	int status;
 	// int res;
-
-	char **del1 = ft_split(argv[2], ' ');
-	char **del2 = ft_split(argv[3], ' ');
-
-	if (!find_path(del1[0], env[14]) || !find_path(del2[0], env[14]))
-		exit(1);
-
 
 	if (pipe(fd))
 		return printf("Error\n");
@@ -136,11 +108,12 @@ int manage(char **argv, char **env)
 	else
 	{
 		/* Padre */
-		//waitpid(0, &status, 0);
-		wait(NULL);
-		if (status == -1)
+		waitpid(-1, &status, 0);
+		// wait(NULL);
+		printf("Llegue (%d)\n", status);
+		if (status != 0)
 		{
-			printf("Ce fini\n");
+			printf("Error\n");
 			exit(1);
 		}
 		close(fd[1]);
