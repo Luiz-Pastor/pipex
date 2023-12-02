@@ -23,6 +23,9 @@ libft/libft.a:
 ######################################################
 
 run: all
+	@rm -rf test.txt
+	@rm -rf result.txt
+	@norminette > test.txt
 	@./$(NAME) test.txt "grep -v OK" "grep CONSECUTIVE_NEWLINES" errors.log
 
 valgrind:
@@ -33,6 +36,8 @@ valgrind:
 clean:
 	@rm -rf $(OBJ)
 	@make -C libft/ clean
+	@rm -rf test.txt
+	@rm -rf result.txt
 
 fclean: clean
 	@rm -rf $(NAME)
