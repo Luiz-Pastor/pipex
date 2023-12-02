@@ -105,7 +105,6 @@ int manage(char **argv, char **env, int input, int output)
 	int	pid;
 	int fd[2];
 	int status;
-	// int res;
 
 	if (pipe(fd))
 		select_error(PIPE);

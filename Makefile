@@ -22,14 +22,16 @@ libft/libft.a:
 
 ######################################################
 
-run: all
-	@rm -rf test.txt
-	@rm -rf result.txt
+test:
 	@norminette > test.txt
-	@./$(NAME) test.txt "grep -v OK" "grep CONSECUTIVE_NEWLINES" errors.log
 
-valgrind:
-	@valgrind --leak-check=full ./$(NAME) a b c d
+run: all
+	@rm -rf result.txt
+	@./$(NAME) test.txt "grep -v OK" "grep CONSECUTIVE_NEWLINES" result.txt
+
+valgrind: all
+	@rm -rf result.txt
+	@valgrind --leak-check=full ./$(NAME) test.txt "grep -v OK" "grep CONSECUTIVE_NEWLINES" result.txt
 
 ######################################################
 
