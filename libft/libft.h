@@ -560,6 +560,4 @@ int		ft_strcmp(const char *s1, const char *s2);
 
 void	*free_split(char **spl);
 
-int	ft_strncmp(const char *s1, const char *s2, size_t count);
-
 #endif
