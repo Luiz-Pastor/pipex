@@ -1,6 +1,6 @@
 # Esquema
 1. [X] Hacer funcion para encontrar ruta del comando a ejecutar
-1. [ ] Ejecutar el primer comando
+2. [X] Ejecutar el primer comando
 	- [X] Crear pipe `pipe1`
 	- [X] Hacer un `fork`
 		1. Padre se queda esperando a hijo
@@ -10,10 +10,11 @@
 			- [X] Rederigir salida `stdout` a `pipe1` 
 			- [X] Ejecutar comando con `execv`
 
-2. [X] Ejecutar el segundo comando
+3. [X] Ejecutar el segundo comando
 	- [X] Rederigir salida `stdout` a `outfile`
 	- [X] Ejecutar `execv` con los argumentos de `pipe1`
 
 # Falta
-1. [ ] Gestionar errores del primer comando
-2. [ ] Gestionar errores del segundo comando
+1. [X] Gestionar errores del primer comando
+2. [X] Gestionar errores del segundo comando
+3. [ ] Gestionar varios argumentos con comillas (comandos como el `awk` lo necesitan)
