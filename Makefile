@@ -27,7 +27,10 @@ test:
 
 run: all
 	@rm -rf result.txt
-	@./$(NAME) test.txt "grep -v OK" "grep CONSECUTIVE_NEWLINES" result.txt
+	@./$(NAME) test.txt "grep -v OK" "grep EMPTY_LINE_FUNCTION"
+
+awk: all
+	./$(NAME) test.txt "cat" "awk '\$$1 == "Error:" {print \$$2}'" result.txt
 
 valgrind: all
 	@rm -rf result.txt
