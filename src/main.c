@@ -15,6 +15,27 @@
 #include <stdio.h>
 #include "../inc/pipex.h"
 
+void	printCommandInput(char *path, char **arguments, char **env, int mode)
+{
+	int	index = 0;
+
+	printf("Path: %s\n", path);
+
+	printf("Arguments:\n");
+	while (arguments[index])
+		printf("\t- [ %s ]\n", arguments[index++]);
+	printf("\t[ NULL ]\n");
+
+	if (mode == 0)
+		printf("ENV: %p\n", env);
+	else
+	{
+		index = 0;
+		while (env[index])
+			printf("\t%s\n", env[index++]);
+	}
+}
+
 void	select_error(int status)
 {
 	if (status == PIPE)
@@ -59,6 +80,8 @@ void	first_command(int input, char *command, char **env, int output)
 	if (!path)
 		select_error(PATH);
 
+	/* printCommandInput(path, splitted, env, 0); */
+
 	/* Rederigimos la entrada estandar */
 	dup2(input, STDIN_FILENO);
 	close(input);
@@ -85,6 +108,8 @@ void	second_command(int input, char *command, char **env, int output)
 	path = find_path(splitted[0], env[get_path_index(env)]);
 	if (!path)
 		select_error(PATH);
+
+	printCommandInput(path, splitted, env, 0);
 
 	/* Rederigimos la entrada estandar */
 	dup2(input, STDIN_FILENO);
@@ -146,42 +171,10 @@ int	main(int argc, char *argv[], char *env[])
 	if (argc != 5)
 		return (printf("Usage: %s infile cmd1 cmd2 outfile\n", argv[0]));
 
-	// int index = 0;
-	// while (env[index])
-	// 	printf("%s\n", env[index++]);
-
 	input = open(argv[1], O_RDONLY);
 	output = open(argv[argc - 1], O_WRONLY | O_CREAT, 0777);
 	if (input < 0 || output < 0)
 		select_error(FILE_OPEN);
 
 	return manage(argv, env, input, output);
-
-
 }
-
-
-
-
-
-
-
-
-
-
-	/* int	index = -1;
-	while (env[++index])
-		printf("(%d) %s\n", index, env[index]);*/
-
-	/*
-		char **test = malloc(5 * sizeof(char *));
-		int fd = open("res.txt", O_WRONLY | O_CREAT, 0777);
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-
-		test[0] = strdup("ping");
-		test[1] = strdup("8.8.8.8");
-		test[2] = strdup("-c 2");
-		test[3] = NULL;
-		execve("/sbin/ping", test, env);
-	*/
