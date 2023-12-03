@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/02 12:46:48 by marvin           ###   ########.fr       */
+/*   Updated: 2023/12/03 12:37:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ enum {
 	MEMORY,
 	FILE_OPEN,
 	PATH,
-	COMMAND
+	COMMAND = -1
 };
 
 int		get_path_index(char **env);
