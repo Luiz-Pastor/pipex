@@ -100,16 +100,24 @@ void	second_command(int input, char *command, char **env, int output)
 	char	*path;
 
 	/* Separamos los argumentos ([comando] [arg1] [arg2] [...]) */
-	splitted = ft_split(command, ' ');
+	/*splitted = ft_split(command, ' ');
+	if (!splitted)
+		select_error(MEMORY);*/
+
+	splitted = divide_arguments(command);
 	if (!splitted)
 		select_error(MEMORY);
+
+	int index = 0;
+	while (splitted[index])
+		printf("\t[%s]\n", splitted[index++]);
 
 	/* Buscamos la ruta del comando */
 	path = find_path(splitted[0], env[get_path_index(env)]);
 	if (!path)
 		select_error(PATH);
 
-	printCommandInput(path, splitted, env, 0);
+	/*printCommandInput(path, splitted, env, 0);*/
 
 	/* Rederigimos la entrada estandar */
 	dup2(input, STDIN_FILENO);
