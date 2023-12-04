@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/04 16:18:20 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/04 23:00:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PIPEX_H
 
 /* Gestion variada */
+#include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
 # include <string.h>
@@ -28,26 +29,11 @@
 
 # include "../libft/libft.h"
 
-/*
-	0 = OK
-	1 = Pipe error
-	2 = Fork error
-	3 = Error de memoria
-	4 = No existe/no se puede acceder archivo
-	5 = No existe PATH
-	6 = Error a ejecutar comando
-*/
-enum {
-	COMMAND = -1,
-	PIPE = 1,
-	FORK,
-	MEMORY,
-	FILE_OPEN,
-	PATH
-};
-
 int		get_path_index(char **env);
 char	*find_path(char *command, char *paths);
 char	**divide_arguments(char *command);
+
+void	*free_array(char **arr);
+void	exit_error();
 
 #endif

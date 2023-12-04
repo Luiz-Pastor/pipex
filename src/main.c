@@ -15,6 +15,20 @@
 #include <stdio.h>
 #include "../inc/pipex.h"
 
+
+void	*del(char **arr)
+{
+	int	index;
+
+	index = 0;
+	if (!arr)
+		return NULL;
+	while (arr[index])
+		free(arr[index++]);
+	free(arr);
+	return NULL;
+}
+
 void	printCommandInput(char *path, char **arguments, char **env, int mode)
 {
 	int	index = 0;
@@ -36,25 +50,6 @@ void	printCommandInput(char *path, char **arguments, char **env, int mode)
 	}
 }
 
-void	select_error(int status)
-{
-	if (status == PIPE)
-		perror("Pipe");
-	else if (status == FORK)
-		perror("Fork");
-	else if (status == MEMORY)
-		perror("Memory");
-	else if (status == FILE_OPEN)
-		perror("File");
-	else if (status == PATH)
-		perror("Path");
-	else if (status == COMMAND)
-		perror("Command");
-	else
-		return ;
-	exit(status);
-}
-
 // int	split_length(char **spl)
 // {
 // 	int	index;
@@ -71,20 +66,23 @@ void	first_command(int input, char *command, char **env, int output)
 	char	*path;
 
 	/* Dividimos los argumentos ([comando] [argumento1] [argumento2] [...])*/
-	splitted = ft_split(command, ' ');
-	if (!splitted)
-		select_error(MEMORY);
+	// splitted = ft_split(command, ' ');
+	// if (!splitted)
+	// 	exit(-1);
 
-	/*splitted = divide_arguments(command);
+	splitted = divide_arguments(command);
 	if (!splitted)
-		exit(MEMORY);*/
+		exit_error();
 
 	/* Buscamos el path del comando a ejecutar */
 	path = find_path(splitted[0], env[get_path_index(env)]);
 	if (!path)
-		exit(PATH);
+	{
+		free_array(splitted);
+		exit(-1);
+	}
 
-	printCommandInput(path, splitted, env, 0);
+	/* printCommandInput(path, splitted, env, 0); */
 
 	/* Rederigimos la entrada estandar */
 	dup2(input, STDIN_FILENO);
@@ -94,10 +92,13 @@ void	first_command(int input, char *command, char **env, int output)
 	dup2(output, STDOUT_FILENO);
 
 	/* Ejecutamos el comando */
-	if (execve(path, splitted, env))
-		exit(COMMAND);
-	exit(0);
+	if (execve(path, splitted, env) == -1)
+	{
+		free_array(splitted);
+		exit(-1);
+	}
 }
+
 
 void	second_command(int input, char *command, char **env, int output)
 {
@@ -105,22 +106,22 @@ void	second_command(int input, char *command, char **env, int output)
 	char	*path;
 
 	/* Separamos los argumentos ([comando] [arg1] [arg2] [...]) */
-	splitted = ft_split(command, ' ');
-	if (!splitted)
-		select_error(MEMORY);
-
-	// splitted = divide_arguments(command);
+	// splitted = ft_split(command, ' ');
 	// if (!splitted)
-	// 	select_error(MEMORY);
+	// 	exit_error();
 
-	/*int index = 0;
-	while (splitted[index])
-		printf("\t[%s]\n", splitted[index++]);*/
+
+	splitted = divide_arguments(command);
+	if (!splitted)
+		exit_error();
 
 	/* Buscamos la ruta del comando */
 	path = find_path(splitted[0], env[get_path_index(env)]);
 	if (!path)
-		select_error(PATH);
+	{
+		free_array(splitted);
+		exit_error();
+	}
 
 	/*printCommandInput(path, splitted, env, 0);*/
 
@@ -133,8 +134,11 @@ void	second_command(int input, char *command, char **env, int output)
 	close (output);
 
 	/* Ejecutamos el comando */
-	execve(path, splitted, env);
-	exit(COMMAND);
+	if (execve(path, splitted, env) == -1)
+	{
+		free_array(splitted);
+		exit_error();
+	}
 }
 
 int manage(char **argv, char **env, int input, int output)
@@ -145,11 +149,11 @@ int manage(char **argv, char **env, int input, int output)
 	int status;
 
 	if (pipe(fd))
-		select_error(PIPE);
+		exit_error();
 
 	pid = fork();
 	if (pid < 0)
-		select_error(FORK);
+		exit_error();
 	
 	if (pid == 0)
 	{
@@ -163,11 +167,10 @@ int manage(char **argv, char **env, int input, int output)
 	{
 		/* Esperamos a que acabe el proceso hijo */
 		waitpid(-1, &status, 0);
-		
-		printf("> %d\n", status);
 
 		/* Miramos si el hijo ha devuelto error */
-		select_error(status);
+		if (status == -1)
+			exit_error();
 
 		/* Cerramos la escritura del pipe, no la usamos*/
 		close(fd[1]);
@@ -189,7 +192,7 @@ int	main(int argc, char *argv[], char *env[])
 	input = open(argv[1], O_RDONLY);
 	output = open(argv[argc - 1], O_WRONLY | O_CREAT, 0777);
 	if (input < 0 || output < 0)
-		select_error(FILE_OPEN);
+		exit_error();
 
 	return manage(argv, env, input, output);
 }
