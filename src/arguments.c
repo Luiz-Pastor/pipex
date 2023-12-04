@@ -3,28 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 08:08:53 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/04 16:32:50 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/04 22:15:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 #include <stdio.h>
-
-void	*free_array(char **arr)
-{
-	int	index;
-
-	index = 0;
-	if (!arr)
-		return NULL;
-	while (arr[index])
-		free(arr[index++]);
-	free(arr);
-	return NULL;
-}
 
 static int	ft_isspace(char ch)
 {
@@ -65,7 +52,6 @@ static char	**add_argument(char **arguments, char *new)
 	length = 0;
 	while (arguments && arguments[length])
 		length++;
-		
 	act = malloc((length + 2) * sizeof(char *));
 	if (!act)
 		return free_array(arguments);
@@ -73,6 +59,7 @@ static char	**add_argument(char **arguments, char *new)
 	act[length + 1] = NULL;
 	while (--length >= 0)
 		act[length] = arguments[length];
+	free(arguments);
 	return act;
 }
 
@@ -98,7 +85,14 @@ static char	**get_arguments(char *command)
 			return free_array(arguments);
 	
 		arguments = add_argument(arguments, new);
+		if (!arguments)
+		{
+			free(new);
+			return NULL;
+		}
 	}
+	if (!arguments)
+		arguments = calloc(sizeof(char *), 1);
 	return arguments;
 }
 
@@ -112,8 +106,6 @@ void	move_last_first(char **arguments)
 		index++;
 
 	index--;
-	// printf("index: %s\n", arguments[index]);
-	// printf("index - 1: %s\n", arguments[index - 1]);
 	
 	while (index > 0)
 	{
@@ -140,14 +132,11 @@ char	**divide_arguments(char *command)
 
 	index += ft_strlen(cmd);
 	arguments = get_arguments(&command[index]);
-	// printf(" ======> %p <======\n", arguments);
-	exit(0);
 	if (!arguments)
 	{
 		free(cmd);
 		return NULL;
 	}
-	// printf("## %p\n", arguments);
 	arguments = add_argument(arguments, cmd);
 	move_last_first(arguments);
 	return arguments;
