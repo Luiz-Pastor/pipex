@@ -24,14 +24,6 @@ libft/libft.a:
 
 ######################################################
 
-test: all
-	@cp pipex ../pipex_texter/
-	@cd ../pipex_texter; ./pipex "assets/deepthought.txt" "wc -w" "cat" "outs/test-xx.txt";
-	@cd ../pipex_texter; cat outs/test-xx.txt
-	@cd ../pipex_texter; < assets/deepthought.txt wc -w | cat > outs/test-xx.txt; cat outs/test-xx.txt
-
-######################################################
-
 clean:
 	@rm -rf $(OBJ)
 	@make -C libft/ clean
