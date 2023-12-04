@@ -31,8 +31,7 @@ run: all
 	@./$(NAME) test.txt "grep -v OK" "grep EMPTY_LINE_FUNCTION" result.txt
 
 awk: all
-	@echo "==============================\n\n"
-	@./$(NAME) test.txt "cat" "awk '\$$1 == "Error:" {print \$$2}' Hola \"Hola\"" result.txt
+	@./$(NAME) test.txt "cat" "awk '\$$1 == \"Error:\" {print \$$2}'" result.txt
 
 valgrind: all
 	@rm -rf result.txt
