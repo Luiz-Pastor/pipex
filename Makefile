@@ -1,11 +1,12 @@
 ######################################################
 CC := cc
-CFLAGS := -Wall -Werror -Wextra
+CFLAGS := -Wall -Werror -Wextra -g3
 ######################################################
 NAME = pipex
 SRC =	main.c	\
 		path.c	\
-		arguments.c
+		arguments.c	\
+		utils.c
 SRC_FOLDER = src
 OBJ=$(SRC:%.c=%.o)
 ######################################################
@@ -23,19 +24,11 @@ libft/libft.a:
 
 ######################################################
 
-test:
-	@norminette > test.txt
-
-run: all
-	@rm -rf result.txt
-	@./$(NAME) test.txt "grep -v OK" "grep EMPTY_LINE_FUNCTION" result.txt
-
-awk: all
-	@./$(NAME) test.txt "cat" "awk '\$$1 == \"Error:\" {print \$$2}'" result.txt
-
-valgrind: all
-	@rm -rf result.txt
-	@valgrind --leak-check=full ./$(NAME) test.txt "grep -v OK" "grep CONSECUTIVE_NEWLINES" result.txt
+test: all
+	@cp pipex ../pipex_texter/
+	@cd ../pipex_texter; ./pipex "assets/deepthought.txt" "wc -w" "cat" "outs/test-xx.txt";
+	@cd ../pipex_texter; cat outs/test-xx.txt
+	@cd ../pipex_texter; < assets/deepthought.txt wc -w | cat > outs/test-xx.txt; cat outs/test-xx.txt
 
 ######################################################
 
