@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:09:44 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/04 10:41:38 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/04 10:55:26 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ char *find_path(char *command, char *paths)
 	int		index = 0;
 	char	*res = NULL;
 
-	printf("11 # %s #\n", command);
+	// printf("11 # %s #\n", command);
 	splited = ft_split(paths + 5, ':');
-	printf("11 # %s #\n", command);
+	// printf("11 # %s #\n", command);
 	while (splited[index])
 	{
 		slash = ft_strjoin(splited[index++], "/");
 		if (!slash)
 			return free_split(splited);
-		printf("## %s ##\n", command);
+		// printf("## %s ##\n", command);
 		full_path = ft_strjoin(slash, command);
-		printf("## %s ##\n\n", command);
+		// printf("## %s ##\n\n", command);
 		free(slash);
 		if (!full_path)
 			return free_split(splited);

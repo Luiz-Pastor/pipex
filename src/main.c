@@ -74,13 +74,17 @@ void	first_command(int input, char *command, char **env, int output)
 	splitted = ft_split(command, ' ');
 	if (!splitted)
 		select_error(MEMORY);
-	
+
+	/*splitted = divide_arguments(command);
+	if (!splitted)
+		exit(MEMORY);*/
+
 	/* Buscamos el path del comando a ejecutar */
 	path = find_path(splitted[0], env[get_path_index(env)]);
 	if (!path)
-		select_error(PATH);
+		exit(PATH);
 
-	/* printCommandInput(path, splitted, env, 0); */
+	printCommandInput(path, splitted, env, 0);
 
 	/* Rederigimos la entrada estandar */
 	dup2(input, STDIN_FILENO);
@@ -91,7 +95,8 @@ void	first_command(int input, char *command, char **env, int output)
 
 	/* Ejecutamos el comando */
 	if (execve(path, splitted, env))
-		select_error(COMMAND);
+		exit(COMMAND);
+	exit(0);
 }
 
 void	second_command(int input, char *command, char **env, int output)
@@ -100,17 +105,17 @@ void	second_command(int input, char *command, char **env, int output)
 	char	*path;
 
 	/* Separamos los argumentos ([comando] [arg1] [arg2] [...]) */
-	/*splitted = ft_split(command, ' ');
-	if (!splitted)
-		select_error(MEMORY);*/
-
-	splitted = divide_arguments(command);
+	splitted = ft_split(command, ' ');
 	if (!splitted)
 		select_error(MEMORY);
 
-	int index = 0;
+	// splitted = divide_arguments(command);
+	// if (!splitted)
+	// 	select_error(MEMORY);
+
+	/*int index = 0;
 	while (splitted[index])
-		printf("\t[%s]\n", splitted[index++]);
+		printf("\t[%s]\n", splitted[index++]);*/
 
 	/* Buscamos la ruta del comando */
 	path = find_path(splitted[0], env[get_path_index(env)]);
@@ -128,8 +133,8 @@ void	second_command(int input, char *command, char **env, int output)
 	close (output);
 
 	/* Ejecutamos el comando */
-	if (execve(path, splitted, env))
-		select_error(COMMAND);
+	execve(path, splitted, env);
+	exit(COMMAND);
 }
 
 int manage(char **argv, char **env, int input, int output)
@@ -158,6 +163,8 @@ int manage(char **argv, char **env, int input, int output)
 	{
 		/* Esperamos a que acabe el proceso hijo */
 		waitpid(-1, &status, 0);
+		
+		printf("> %d\n", status);
 
 		/* Miramos si el hijo ha devuelto error */
 		select_error(status);
