@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 08:08:53 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/04 10:32:47 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/04 16:32:50 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ static char	*stract_word(char *command, char it, int *index, int inc)
 	while (command[*index] && command[*index] != it)
 		(*index)++;
 	if (inc)
-		new = ft_substr(command, start, (*index) - start + 1);
+		new = ft_substr(command, start + 1, (*index) - start - 1);
 	else
 		new = ft_substr(command, start, (*index) - start);
-	(*index)++;
 	return new;
 }
 
@@ -84,7 +83,7 @@ static char	**get_arguments(char *command)
 	char	*new;
 
 	index = 0;
-	arguments = NULL;	
+	arguments = NULL;
 	while (command[index])
 	{
 		while (command[index] && ft_isspace(command[index]))
@@ -103,6 +102,28 @@ static char	**get_arguments(char *command)
 	return arguments;
 }
 
+void	move_last_first(char **arguments)
+{
+	int	index;
+	char *aux;
+
+	index = 0;
+	while (arguments[index])
+		index++;
+
+	index--;
+	// printf("index: %s\n", arguments[index]);
+	// printf("index - 1: %s\n", arguments[index - 1]);
+	
+	while (index > 0)
+	{
+		aux = arguments[index];
+		arguments[index] = arguments[index - 1];
+		arguments[index - 1] = aux;
+		index--;
+	}
+}
+
 char	**divide_arguments(char *command)
 {
 	char	*cmd;
@@ -118,24 +139,16 @@ char	**divide_arguments(char *command)
 		return NULL;
 
 	index += ft_strlen(cmd);
-	
 	arguments = get_arguments(&command[index]);
+	// printf(" ======> %p <======\n", arguments);
+	exit(0);
 	if (!arguments)
 	{
 		free(cmd);
 		return NULL;
 	}
-
+	// printf("## %p\n", arguments);
 	arguments = add_argument(arguments, cmd);
-	index = 0;
-	while (arguments[index])
-		index++;
-	
-	char *aux;
-	aux = arguments[0];
-	arguments[0] = arguments[index - 1];
-	arguments[index - 1] = aux;
-
-	free(cmd);
+	move_last_first(arguments);
 	return arguments;
 }
