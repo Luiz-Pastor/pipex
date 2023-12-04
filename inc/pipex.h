@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/04 08:22:47 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/04 16:18:20 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@
 	6 = Error a ejecutar comando
 */
 enum {
+	COMMAND = -1,
 	PIPE = 1,
 	FORK,
 	MEMORY,
 	FILE_OPEN,
-	PATH,
-	COMMAND = -1
+	PATH
 };
 
 int		get_path_index(char **env);
