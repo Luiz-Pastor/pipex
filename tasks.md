@@ -17,4 +17,7 @@
 # Falta
 1. [X] Gestionar errores del primer comando
 2. [X] Gestionar errores del segundo comando
-3. [ ] Gestionar varios argumentos con comillas (comandos como el `awk` lo necesitan)
+3. [X] Gestionar varios argumentos con comillas (comandos como el `awk` lo necesitan)
+5. [ ] Cambiar los fds a donde deberían ir
+6. [ ] Revisar leaks (probar todas las posibles combinaciones)
+7. [ ] Norminette
