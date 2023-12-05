@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 08:08:53 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/04 22:15:24 by marvin           ###   ########.fr       */
+/*   Updated: 2023/12/05 08:35:44 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*get_command(char *command)
 	int	i;
 
 	i = 0;
-	while (!ft_isspace(command[i]))
+	while (command && command[i] && !ft_isspace(command[i]))
 		i++;
 	return ft_substr(command, 0, i);
 }
@@ -129,7 +129,7 @@ char	**divide_arguments(char *command)
 	cmd = get_command(&command[index]);
 	if (!cmd)
 		return NULL;
-
+	
 	index += ft_strlen(cmd);
 	arguments = get_arguments(&command[index]);
 	if (!arguments)

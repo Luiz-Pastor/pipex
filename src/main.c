@@ -78,7 +78,7 @@ void	first_command(int input, char *command, char **env, int output)
 	path = find_path(splitted[0], env[get_path_index(env)]);
 	if (!path)
 	{
-		free_array(splitted);
+		// free_array(splitted);
 		exit(-1);
 	}
 
@@ -94,11 +94,10 @@ void	first_command(int input, char *command, char **env, int output)
 	/* Ejecutamos el comando */
 	if (execve(path, splitted, env) == -1)
 	{
-		free_array(splitted);
+		// free_array(splitted);
 		exit(-1);
 	}
 }
-
 
 void	second_command(int input, char *command, char **env, int output)
 {
@@ -110,16 +109,16 @@ void	second_command(int input, char *command, char **env, int output)
 	// if (!splitted)
 	// 	exit_error();
 
-
 	splitted = divide_arguments(command);
 	if (!splitted)
 		exit_error();
+
 
 	/* Buscamos la ruta del comando */
 	path = find_path(splitted[0], env[get_path_index(env)]);
 	if (!path)
 	{
-		free_array(splitted);
+		// free_array(splitted);
 		exit_error();
 	}
 
@@ -136,7 +135,7 @@ void	second_command(int input, char *command, char **env, int output)
 	/* Ejecutamos el comando */
 	if (execve(path, splitted, env) == -1)
 	{
-		free_array(splitted);
+		// free_array(splitted);
 		exit_error();
 	}
 }
