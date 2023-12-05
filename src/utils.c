@@ -13,8 +13,9 @@ void	*free_array(char **arr)
 	return NULL;
 }
 
-void	exit_error()
+void	exit_error(int flag, int end)
 {
-	perror("Error");
-	exit(1);
+	if (flag)
+		perror("Error");
+	exit(end);
 }
