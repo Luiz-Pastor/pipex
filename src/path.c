@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:09:44 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/04 10:55:26 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/07 00:33:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,34 @@ int	get_path_index(char **env)
 	return -1;
 }
 
-char *find_path(char *command, char *paths)
+static char	*get_full_path(char *path, char *command)
 {
 	char	*slash;
+	char	*full_path;
+
+	slash = ft_strjoin(path, "/");
+	if (!slash)
+		return NULL;
+	full_path = ft_strjoin(slash, command);
+	free(slash);
+	return (full_path);
+}
+
+char *find_path(char *command, char *paths)
+{
 	char	*full_path;
 	char	**splited;
 	int		index = 0;
 	char	*res = NULL;
 
-	// printf("11 # %s #\n", command);
+	if (access(command, X_OK) == 0)
+		return (ft_strdup(command));
 	splited = ft_split(paths + 5, ':');
-	// printf("11 # %s #\n", command);
 	while (splited[index])
 	{
-		slash = ft_strjoin(splited[index++], "/");
-		if (!slash)
-			return free_split(splited);
-		// printf("## %s ##\n", command);
-		full_path = ft_strjoin(slash, command);
-		// printf("## %s ##\n\n", command);
-		free(slash);
+		full_path = get_full_path(splited[index++], command);
 		if (!full_path)
 			return free_split(splited);
-		// printf("> %s\n> %s\n\t> %s\n", slash, command, full_path);
-		// printf("> %s\n", full_path);
 		if (access(full_path, X_OK) == 0)
 		{
 			res = full_path;
