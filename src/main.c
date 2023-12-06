@@ -17,34 +17,13 @@
 #include "../inc/pipex.h"
 #include <sys/errno.h>
 
-// void	printCommandInput(char *path, char **arguments, char **env, int mode)
-// {
-// 	int	index = 0;
-
-// 	printf("Path: %s\n", path);
-
-// 	printf("Arguments:\n");
-// 	while (arguments[index])
-// 		printf("\t- [ %s ]\n", arguments[index++]);
-// 	printf("\t[ NULL ]\n");
-
-// 	if (mode == 0)
-// 		printf("ENV: %p\n", env);
-// 	else
-// 	{
-// 		index = 0;
-// 		while (env[index])
-// 			printf("\t%s\n", env[index++]);
-// 	}
-// }
-
-void	first_command(char *input, char *command, char **env, int output)
+void	input_command(char *input, char *command, char **env, int output)
 {
 	char	**splitted;
 	char	*path;
 	int		fd;
 
-	/* Dividimos los argumentos ([comando] [argumento1] [argumento2] [...])*/
+	/* Dividimos los argumentos ([comando] [argumento1] [argumento2] [...]) */
 	splitted = divide_arguments(command);
 	if (!splitted)
 		exit_error(1, -1, NULL, NULL);
@@ -52,10 +31,7 @@ void	first_command(char *input, char *command, char **env, int output)
 	/* Buscamos el path del comando a ejecutar */
 	path = find_path(splitted[0], env[get_path_index(env)]);
 	if (!path)
-	{
-		// free_array(splitted);
 		exit_error(1, -1, NULL, splitted);
-	}
 
 	/* Rederigimos la entrada estandar */
 	fd = open(input, O_RDONLY);
@@ -72,23 +48,16 @@ void	first_command(char *input, char *command, char **env, int output)
 
 	/* Ejecutamos el comando */
 	if (execve(path, splitted, env) == -1)
-	{
-		// free_array(splitted);
 		exit_error(1, -1, path, splitted);
-	}
 }
 
-void	second_command(int input, char *command, char **env, char *output)
+void	output_command(int input, char *command, char **env, char *output)
 {
 	char	**splitted;
 	char	*path;
 	int		fd;
 
 	/* Separamos los argumentos ([comando] [arg1] [arg2] [...]) */
-	// splitted = ft_split(command, ' ');
-	// if (!splitted)
-	// 	exit_error();
-
 	splitted = divide_arguments(command);
 	if (!splitted)
 		exit_error(1, 1, NULL, NULL);
@@ -96,13 +65,9 @@ void	second_command(int input, char *command, char **env, char *output)
 	/* Buscamos la ruta del comando */
 	path = find_path(splitted[0], env[get_path_index(env)]);
 	if (!path)
-	{
-		// free_array(splitted);
 		exit_error(1, 1, NULL, splitted);
-	}
 
-	/*printCommandInput(path, splitted, env, 0);*/
-
+	/* Abrimos el archivo de salida */
 	fd = open(output, O_WRONLY | O_CREAT, 0777);
 	if (fd < 0)
 		exit_error(1, 1, path, splitted);
@@ -117,10 +82,7 @@ void	second_command(int input, char *command, char **env, char *output)
 
 	/* Ejecutamos el comando */
 	if (execve(path, splitted, env) == -1)
-	{
-		// free_array(splitted);
 		exit_error(1, 1, path, splitted);
-	}
 }
 
 int manage(char **argv, char **env, char *input, char *output)
@@ -142,7 +104,7 @@ int manage(char **argv, char **env, char *input, char *output)
 		close(fd[0]);
 
 		/* Ejecutamos el primer comando */
-		first_command(input, argv[2], env, fd[1]);
+		input_command(input, argv[2], env, fd[1]);
 	}
 	else
 	{
@@ -157,7 +119,7 @@ int manage(char **argv, char **env, char *input, char *output)
 		close(fd[1]);
 
 		/* Ejecutamos el segundo comando */
-		second_command(fd[0], argv[3], env, output);
+		output_command(fd[0], argv[3], env, output);
 	}
 	exit(0);
 }
