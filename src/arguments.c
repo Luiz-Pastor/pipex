@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 08:08:53 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/05 11:31:57 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/07 00:18:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static char	**get_arguments(char *command)
 		}
 	}
 	if (!arguments)
-		arguments = calloc(sizeof(char *), 1);
+		arguments = ft_calloc(sizeof(char *), 1);
 	return arguments;
 }
 
