@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/05 11:19:43 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/05 20:01:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ char	*find_path(char *command, char *paths);
 char	**divide_arguments(char *command);
 
 void	*free_array(char **arr);
-void	exit_error(int flag, int end);
+void	exit_error(int flag, int end, char *path, char **arg);
 
 #endif

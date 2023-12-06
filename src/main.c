@@ -47,20 +47,20 @@ void	first_command(char *input, char *command, char **env, int output)
 	/* Dividimos los argumentos ([comando] [argumento1] [argumento2] [...])*/
 	splitted = divide_arguments(command);
 	if (!splitted)
-		exit_error(1, -1);
+		exit_error(1, -1, NULL, NULL);
 
 	/* Buscamos el path del comando a ejecutar */
 	path = find_path(splitted[0], env[get_path_index(env)]);
 	if (!path)
 	{
-		free_array(splitted);
-		exit_error(1, -1);
+		// free_array(splitted);
+		exit_error(1, -1, NULL, splitted);
 	}
 
 	/* Rederigimos la entrada estandar */
 	fd = open(input, O_RDONLY);
 	if (fd < 0)
-		exit_error(1, -1);
+		exit_error(1, -1, path, splitted);
 
 	/* Rederigimos la entrada */
 	dup2(fd, STDIN_FILENO);
@@ -73,8 +73,8 @@ void	first_command(char *input, char *command, char **env, int output)
 	/* Ejecutamos el comando */
 	if (execve(path, splitted, env) == -1)
 	{
-		free_array(splitted);
-		exit_error(1, -1);
+		// free_array(splitted);
+		exit_error(1, -1, path, splitted);
 	}
 }
 
@@ -91,22 +91,21 @@ void	second_command(int input, char *command, char **env, char *output)
 
 	splitted = divide_arguments(command);
 	if (!splitted)
-		exit_error(1, 1);
-
+		exit_error(1, 1, NULL, NULL);
 
 	/* Buscamos la ruta del comando */
 	path = find_path(splitted[0], env[get_path_index(env)]);
 	if (!path)
 	{
-		free_array(splitted);
-		exit_error(1, 1);
+		// free_array(splitted);
+		exit_error(1, 1, NULL, splitted);
 	}
 
 	/*printCommandInput(path, splitted, env, 0);*/
 
 	fd = open(output, O_WRONLY | O_CREAT, 0777);
 	if (fd < 0)
-		exit_error(1, 1);
+		exit_error(1, 1, path, splitted);
 
 	/* Rederigimos la entrada estandar */
 	dup2(input, STDIN_FILENO);
@@ -119,8 +118,8 @@ void	second_command(int input, char *command, char **env, char *output)
 	/* Ejecutamos el comando */
 	if (execve(path, splitted, env) == -1)
 	{
-		free_array(splitted);
-		exit_error(1, 1);
+		// free_array(splitted);
+		exit_error(1, 1, path, splitted);
 	}
 }
 
@@ -131,11 +130,11 @@ int manage(char **argv, char **env, char *input, char *output)
 	int status;
 
 	if (pipe(fd))
-		exit_error(1, 1);
+		exit_error(1, 1, NULL, NULL);
 
 	pid = fork();
 	if (pid < 0)
-		exit_error(1, 1);
+		exit_error(1, 1, NULL, NULL);
 	
 	if (pid == 0)
 	{
@@ -152,7 +151,7 @@ int manage(char **argv, char **env, char *input, char *output)
 
 		/* Miramos si el hijo ha devuelto error */
 		if (WEXITSTATUS(status) == 255)
-			exit_error(0, 1);
+			exit_error(0, 1, NULL, NULL);
 
 		/* Cerramos la escritura del pipe, no la usamos*/
 		close(fd[1]);
@@ -165,15 +164,8 @@ int manage(char **argv, char **env, char *input, char *output)
 
 int	main(int argc, char *argv[], char *env[])
 {	
-
-	
 	if (argc != 5)
 		return (printf("Usage: %s infile cmd1 cmd2 outfile\n", argv[0]));
-
-	// input = open(argv[1], O_RDONLY);
-	// output = open(argv[argc - 1], O_WRONLY | O_CREAT, 0777);
-	// if (input < 0 || output < 0)
-	// 	exit_error();
 
 	return manage(argv, env, argv[1], argv[argc - 1]);
 }
