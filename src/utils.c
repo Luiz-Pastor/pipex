@@ -6,23 +6,20 @@ void	*free_array(char **arr)
 
 	index = 0;
 	if (!arr)
-		return NULL;
+		return (NULL);
 	while (arr[index])
 		free(arr[index++]);
 	free(arr);
-	return NULL;
+	return (NULL);
 }
 
 void	exit_error(int flag, int end, char *path, char **arg)
 {
 	if (path)
 		free(path);
-
 	if (arg)
 		free_array(arg);
-
 	if (flag)
 		perror("Error");
-
 	exit(end);
 }

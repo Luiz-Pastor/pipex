@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:09:44 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/07 00:33:32 by marvin           ###   ########.fr       */
+/*   Updated: 2023/12/08 00:35:03 by luiz_ubuntu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	get_path_index(char **env)
 	while (env[index])
 	{
 		if (!strncmp(env[index], "PATH", 4))
-			return index;
+			return (index);
 		index++;
 	}
-	return -1;
+	return (-1);
 }
 
 static char	*get_full_path(char *path, char *command)
@@ -34,19 +34,21 @@ static char	*get_full_path(char *path, char *command)
 
 	slash = ft_strjoin(path, "/");
 	if (!slash)
-		return NULL;
+		return (NULL);
 	full_path = ft_strjoin(slash, command);
 	free(slash);
 	return (full_path);
 }
 
-char *find_path(char *command, char *paths)
+char	*find_path(char *command, char *paths)
 {
 	char	*full_path;
 	char	**splited;
-	int		index = 0;
-	char	*res = NULL;
+	int		index;
+	char	*res;
 
+	index = 0;
+	res = NULL;
 	if (access(command, X_OK) == 0)
 		return (ft_strdup(command));
 	splited = ft_split(paths + 5, ':');
@@ -54,14 +56,14 @@ char *find_path(char *command, char *paths)
 	{
 		full_path = get_full_path(splited[index++], command);
 		if (!full_path)
-			return free_split(splited);
+			return (free_split(splited));
 		if (access(full_path, X_OK) == 0)
 		{
 			res = full_path;
-			break;
+			break ;
 		}
 		free(full_path);
 	}
 	free_split(splited);
-	return res;
+	return (res);
 }
