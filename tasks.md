@@ -21,7 +21,7 @@
 3. [X] Gestionar varios argumentos con comillas (comandos como el `awk` lo necesitan)
 4. [X] Cambiar los fds a donde deberían ir
 5. [X] Revisar leaks normales 
-6. [ ] Norminette
+6. [X] Norminette
 7. [ ] Probar todas las posibles combinaciones de errores, para ver leaks
 	- Archivo de entrada no existe
 	- Archivo de salida no existe
@@ -29,3 +29,11 @@
 	- Comando 2 no existe
 	- Comando 1 da error al compilar (?)
 	- Comando 2 da error al compilar (?)
+# Bonus
+1. [ ] Añadir el Here\_doc (gnl y bucle). Guardar información en archivo en `temp`
+	- [NOTA]: recordar eliminar el archivo antes de acabar ejecucion (main o en un fork? Solo los childs execve o el ultimo padre tambien?)
+2. [ ] Añadir bucle de ejecucion de comandos. Ideas:
+	- Encadenar pipes
+	- Encadenar forks
+		- Padres: waiting
+		- Hijos: execve
