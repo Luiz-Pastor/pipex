@@ -6,11 +6,18 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 08:56:47 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/11 09:50:16 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:16:12 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
+
+void	check_heredoc(char **argv)
+{
+	if (strcmp(argv[0], "here_doc"))
+		return ;
+	unlink("/tmp/pipex.log");
+}
 
 int	read_data(int fd, char *delimiter)
 {
@@ -21,12 +28,14 @@ int	read_data(int fd, char *delimiter)
 	if (!full_delimiter)
 		return (0);
 	buffer = get_next_line(0);
-	while (buffer && ft_strcmp(buffer, delimiter))
+	while (buffer && ft_strcmp(buffer, full_delimiter))
 	{
 		write(fd, buffer, ft_strlen(buffer));
 		free(buffer);
 		buffer = get_next_line(0);
 	}
+	if (buffer)
+		free(buffer);
 	free(full_delimiter);
 	return (1);
 }

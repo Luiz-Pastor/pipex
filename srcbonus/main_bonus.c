@@ -80,6 +80,7 @@ int	manage(char **argv, char **env, char *input, char *output)
 	else
 	{
 		waitpid(-1, &status, 0);
+		check_heredoc(argv);
 		if (WEXITSTATUS(status) == 255)
 			exit_error(0, 1, NULL, NULL);
 		close(fd[1]);
@@ -91,12 +92,17 @@ int	manage(char **argv, char **env, char *input, char *output)
 int	main(int argc, char *argv[], char *env[])
 {
 	char	*input;
+	int		count;
 
+	count = 0;
 	if (argc < 5)
 		return (write(1, "Usage: ./pipex infile cmd1 cmd2 outfile\n", 40));
 	if (!ft_strcmp(argv[1], "here_doc"))
+	{
 		input = here_doc(argv[2]);
+		count = 1;
+	}
 	else
 		input = argv[1];
-	return (manage(argv, env, input, argv[argc - 1]));
+	return (manage(argv + count, env, input, argv[argc - 1]));
 }

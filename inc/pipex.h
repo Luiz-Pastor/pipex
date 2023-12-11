@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/11 09:49:38 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/11 10:53:00 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ char	*stract_word(char *string, char it, int *index, int inc);
 
 /* Bonus */
 char	*here_doc(char *delimiter);
+void	check_heredoc(char **argv);
 
 #endif
