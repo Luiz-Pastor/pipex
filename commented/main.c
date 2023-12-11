@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* TODO: cambiar printf por write*/
-
 #include <stdio.h>
 #include <string.h>
 #include "../inc/pipex.h"
@@ -131,7 +129,7 @@ int	manage(char **argv, char **env, char *input, char *output)
 int	main(int argc, char *argv[], char *env[])
 {	
 	if (argc != 5)
-		return (printf("Usage: %s infile cmd1 cmd2 outfile\n", argv[0]));
+		return (write(1, "Usage: ./pipex infile cmd1 cmd2 outfile\n", 40));
 
 	return (manage(argv, env, argv[1], argv[argc - 1]));
 }
