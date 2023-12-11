@@ -17,7 +17,7 @@ BONUS_SRC =	main_bonus.c		\
 			path_bonus.c		\
 			arguments_bonus.c	\
 			utils_bonus.c
-BONUS_SRC = srcbonus
+BONUS_FOLDER = srcbonus
 BONUS_OBJ=$(BONUS_SRC:%.c=%.o)
 ######################################################
 
