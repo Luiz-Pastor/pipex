@@ -12,6 +12,21 @@
 
 #include "../libft.h"
 
+char	*ft_strcpy(char *dest, const char *src)
+{
+	int	index;
+
+	index = 0;
+	if (!dest || !src)
+		return (NULL);
+	while (src[index])
+	{
+		dest[index] = src[index];
+		index++;
+	}
+	return (dest);
+}
+
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	index;
