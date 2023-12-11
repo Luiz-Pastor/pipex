@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/08 00:59:30 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/11 09:49:38 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,8 @@ int		ft_isspace(char ch);
 void	*free_array(char **arr);
 void	exit_error(int flag, int end, char *path, char **arg);
 char	*stract_word(char *string, char it, int *index, int inc);
+
+/* Bonus */
+char	*here_doc(char *delimiter);
 
 #endif
