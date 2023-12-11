@@ -16,7 +16,8 @@ OBJ=$(SRC:%.c=%.o)
 BONUS_SRC =	main_bonus.c		\
 			path_bonus.c		\
 			arguments_bonus.c	\
-			utils_bonus.c
+			utils_bonus.c		\
+			here_doc_bonus.c
 BONUS_FOLDER = srcbonus
 BONUS_OBJ=$(BONUS_SRC:%.c=%.o)
 ######################################################
@@ -41,10 +42,8 @@ libft/libft.a:
 ######################################################
 
 clean:
-	@rm -rf $(OBJ)
+	@rm -rf $(OBJ) $(BONUS_OBJ)
 	@make -C libft/ clean
-	@rm -rf test.txt
-	@rm -rf result.txt
 
 fclean: clean
 	@rm -rf $(NAME)
