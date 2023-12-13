@@ -8,7 +8,8 @@ NAME = pipex
 SRC =	main.c		\
 		path.c		\
 		arguments.c	\
-		utils.c
+		utils.c		\
+		executes.c
 SRC_FOLDER = src
 OBJ=$(SRC:%.c=%.o)
 

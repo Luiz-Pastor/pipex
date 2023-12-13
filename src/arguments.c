@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 08:08:53 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/11 08:54:45 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/13 12:58:27 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	**get_arguments(char *command)
 			return (free_array(arguments));
 		arguments = add_argument(arguments, new);
 		if (!arguments)
-			return (free(new), NULL);
+			return (free_array(arguments), free(new), NULL);
 	}
 	if (!arguments)
 		arguments = ft_calloc(sizeof(char *), 1);
@@ -109,6 +109,8 @@ char	**divide_arguments(char *command)
 		return (NULL);
 	}
 	arguments = add_argument(arguments, cmd);
+	if (!arguments)
+		return (NULL);
 	move_last_first(arguments);
 	return (arguments);
 }
