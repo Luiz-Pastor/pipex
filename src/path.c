@@ -40,6 +40,17 @@ static char	*get_full_path(char *path, char *command)
 	return (full_path);
 }
 
+static int	is_full_path(char *path)
+{
+	if (!ft_strncmp(path, "/", 1))
+		return (1);
+	if (!ft_strncmp(path, "./", 2))
+		return (1);
+	if (!ft_strncmp(path, "../", 3))
+		return (1);
+	return (0);
+}
+
 char	*find_path(char *command, char *paths)
 {
 	char	*full_path;
@@ -49,7 +60,8 @@ char	*find_path(char *command, char *paths)
 
 	index = 0;
 	res = NULL;
-	/* TODO: verificar que el path nos lo pasan completo --> strcmps*/
+	if (is_full_path(command))
+		return (ft_strdup(command));
 	splited = ft_split(paths + 5, ':');
 	while (splited[index])
 	{

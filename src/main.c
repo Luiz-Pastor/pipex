@@ -41,7 +41,6 @@ int	manage(char **argv, char **env, char *input, char *output)
 	}
 	waitpid(pid[0], NULL, 0);
 	waitpid(pid[1], &status, 0);
-	printf("==> %d\n", WEXITSTATUS(status));
 	exit(1);
 }
 
