@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/11 10:53:00 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/13 08:07:17 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,26 @@
 
 # include "../libft/libft.h"
 
+typedef struct s_pipex t_pipex;
+
+struct s_pipex {
+	char	*input;
+	char	*output;
+	
+	int		fd_in;
+	int		fd_out;
+
+	char	**argv;
+	char	**env;
+};
+
 int		get_path_index(char **env);
 char	*find_path(char *command, char *paths);
 char	**divide_arguments(char *command);
+
+void	input_command(char *input, char *command, char **env, int output);
+void	child_command(int input, char *command, char **env, int output);
+void	output_command(int input, char *command, char **env, char *output);
 
 int		ft_isspace(char ch);
 void	*free_array(char **arr);
