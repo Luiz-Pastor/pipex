@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executes.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 08:04:14 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/13 12:57:12 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/16 13:06:57 by luiz_ubuntu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	input_command(char *input, char *command, char **env, int output)
 		exit_error(1, -1, path, splitted);
 }
 
-void	child_command(int input, char *command, char **env, int output)
+/*void	child_command(int input, char *command, char **env, int output)
 {
 	char	**splitted;
 	char	*path;
@@ -56,18 +56,22 @@ void	child_command(int input, char *command, char **env, int output)
 	close (output);
 	if (execve(path, splitted, env) == -1)
 		exit_error(1, 1, path, splitted);
-}
+}*/
 
 void	output_command(int input, char *command, char **env, char *output)
 {
 	char	**splitted;
 	char	*path;
 	int		fd;
+	int		index;
 
 	splitted = divide_arguments(command);
 	if (!splitted)
 		exit_error(1, 1, NULL, NULL);
-	path = find_path(splitted[0], env[get_path_index(env)]);
+	index = get_path_index(env);
+	if (index == -1)
+		exit_error(1, -1, NULL, splitted);
+	path = find_path(splitted[0], env[index]);
 	if (!path)
 		exit_error(1, 1, NULL, splitted);
 	fd = open(output, O_WRONLY | O_CREAT | O_TRUNC, 0777);
