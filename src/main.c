@@ -19,16 +19,18 @@ int	manage(char **argv, char **env, char *input, char *output)
 {
 	int	pid[2];
 	int	fd[2];
-	int status;
+	int status[2];
 
 	/* Abrimos el pipe */
 	if (pipe(fd))
-		exit_error(1, 1, NULL, NULL);
+		exit_parent(NULL);
+	// exit_error(1, 1, NULL, NULL);
 
 	/* NOTE: primer fork */
 	pid[0] = fork();
 	if (pid[0] < 0)
-		exit_error(1, 1, NULL, NULL);
+		exit_parent(fd);
+	// exit_error(1, 1, NULL, NULL);
 	if (!pid[0])
 	{
 		close(fd[0]);
@@ -38,7 +40,8 @@ int	manage(char **argv, char **env, char *input, char *output)
 	/* NOTE: segundo fork */
 	pid[1] = fork();
 	if (pid[1] < 0)
-		exit_error(1, 1, NULL, NULL);
+		exit_parent(fd);
+	// exit_error(1, 1, NULL, NULL);
 	if (!pid[1])
 	{
 		close(fd[1]);
@@ -50,11 +53,11 @@ int	manage(char **argv, char **env, char *input, char *output)
 	close(fd[1]);
 
 	/* Esperamos a los hijos */
-	waitpid(pid[0], NULL, 0);
-	waitpid(pid[1], &status, 0);
+	waitpid(pid[0], &status[0], 0);
+	waitpid(pid[1], &status[1], 0);
 
 	/* Salimos con el status del último comando */
-	exit(WEXITSTATUS(status));
+	exit(WEXITSTATUS(status[1]));
 }
 
 int	main(int argc, char *argv[], char *env[])

@@ -6,7 +6,7 @@
 /*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/17 00:56:34 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/17 11:58:33 by luiz_ubuntu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ struct s_pipex {
 };
 
 enum {
-	NONE = 0,
-	NO_FILE,
+	NO_FILE = 0,
 	NO_COMMAND,
 	COMMAND_PROBLEM,
-	MEMORY_PROBLEM
+	MEMORY_PROBLEM,
+	ENV_PROBLEM
 };
 
 int		get_path_index(char **env);
@@ -60,6 +60,8 @@ void	output_command(int input, char *command, char **env, char *output);
 int		ft_isspace(char ch);
 void	*free_array(char **arr);
 void	exit_error(int flag, int end, char *path, char **arg);
+void	exit_child(int event, char *content, char *path, char **arguments);
+void	exit_parent(int *fd);
 char	*stract_word(char *string, char it, int *index, int inc);
 
 /* Bonus */

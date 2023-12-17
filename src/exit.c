@@ -6,7 +6,7 @@
 /*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 00:55:21 by luiz_ubuntu       #+#    #+#             */
-/*   Updated: 2023/12/17 01:04:24 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/17 12:00:17 by luiz_ubuntu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,6 @@ void	exit_error(int flag, int end, char *path, char **arg)
 
 void	exit_child(int event, char *content, char *path, char **arguments)
 {
-	/* Liberamos memoria si es que hay que eliminarla */
-	if (path)
-		free(path);
-	if (arg)
-		free_array(arg);
-	
 	/* Miramos por qué sale del programa, y elegimos que mensaje mostrar */
 	if (event == NO_FILE)
 		perror(content);
@@ -52,15 +46,29 @@ void	exit_child(int event, char *content, char *path, char **arguments)
 	}
 	else if (event == COMMAND_PROBLEM)
 		perror(content);
+	else if (event == ENV_PROBLEM)
+		write(1, "Environment error: insufficient information\n", 45);
 	else
 	{
-		write(1, content, ft_strlen(content));
-		write(1, ": out of memory\n", 17);
+		perror("Memory error");
 	}
-	exit(-1);
+	
+	/* Liberamos memoria si es que hay que eliminarla */
+	if (path)
+		free(path);
+	if (arguments)
+		free_array(arguments);
+	
+	exit(1);
 }
 
-void	exit_parent()
+void	exit_parent(int *fd)
 {
-	
+	if (fd)
+	{
+		close(fd[0]);
+		close(fd[1]);
+	}
+	perror("Error");
+	exit(1);
 }
