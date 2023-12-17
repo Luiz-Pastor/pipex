@@ -49,3 +49,17 @@ char	*stract_word(char *string, char it, int *index, int inc)
 		new = ft_substr(string, start, (*index) - start);
 	return (new);
 }
+
+void	close_pipe(int *fd)
+{
+	if (!fd)
+		return ;
+	close(fd[0]);
+	close(fd[1]);
+}
+
+void	wait_childs(int *pid, int *status)
+{
+	waitpid(pid[0], &status[0], 0);
+	waitpid(pid[1], &status[1], 0);
+}
