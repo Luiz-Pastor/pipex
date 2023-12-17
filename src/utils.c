@@ -25,17 +25,6 @@ void	*free_array(char **arr)
 	return (NULL);
 }
 
-void	exit_error(int flag, int end, char *path, char **arg)
-{
-	if (path)
-		free(path);
-	if (arg)
-		free_array(arg);
-	if (flag)
-		perror("Error");
-	exit(end);
-}
-
 int	ft_isspace(char ch)
 {
 	if (ch == ' ' || ch == '\n' || ch == '\t')
