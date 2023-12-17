@@ -19,6 +19,8 @@ BONUS_SRC =	main_bonus.c		\
 			path_bonus.c		\
 			arguments_bonus.c	\
 			utils_bonus.c		\
+			executes_bonus.c	\
+			exit_bonus.c		\
 			here_doc_bonus.c
 BONUS_FOLDER = srcbonus
 BONUS_OBJ=$(BONUS_SRC:%.c=%.o)
@@ -29,8 +31,10 @@ all: $(NAME)
 $(NAME): $(OBJ) libft/libft.a
 	$(CC) $^ -o $(NAME)
 
-bonus: $(BONUS_OBJ) libft/libft.a
+bonus: .bonus
+.bonus: $(BONUS_OBJ) libft/libft.a
 	$(CC) $^ -o $(NAME)
+	@touch .bonus
 
 libft/libft.a:
 	@make -C libft/
@@ -44,7 +48,7 @@ libft/libft.a:
 ######################################################
 
 clean:
-	@rm -rf $(OBJ) $(BONUS_OBJ)
+	@rm -rf $(OBJ) $(BONUS_OBJ) .bonus
 	@make -C libft/ clean
 
 fclean: clean
