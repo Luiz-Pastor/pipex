@@ -6,7 +6,7 @@
 /*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 08:04:14 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/17 11:51:29 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/17 12:04:40 by luiz_ubuntu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,33 @@ void	input_command(char *input, char *command, char **env, int output)
 	int		fd;
 	int		index;
 
+	/* Dividimos el comando con sus argumentos */
 	splitted = divide_arguments(command);
 	if (!splitted)
 		exit_child(MEMORY_PROBLEM, NULL, NULL, NULL);
-	// exit_error(1, 1, NULL, NULL);
+
+	/* Conseguimos el índice de la parte en la que este las variables del PATH, y conseguimos el path completo del comando */
 	index = get_path_index(env);
 	if (index == -1)
 		exit_child(ENV_PROBLEM, NULL, NULL, splitted);
-	// exit_error(1, 1, NULL, splitted);
 	path = find_path(splitted[0], env[index]);
 	if (!path)
 		exit_child(NO_COMMAND, command, NULL, splitted);
-	// exit_error(1, 1, NULL, splitted);
+
+	/* Abrimos el archivo de entrada */
 	fd = open(input, O_RDONLY);
 	if (fd < 0)
 		exit_child(NO_FILE, input, path, splitted);
-	// exit_error(1, 1, path, splitted);
+
+	/* Redirigimos las entradas y salidas */
 	dup2(fd, STDIN_FILENO);
-	close(fd);
 	dup2(output, STDOUT_FILENO);
+	close(fd);
 	close(output);
+
+	/* Ejecutamos el comando */
 	if (execve(path, splitted, env) == -1)
 		exit_child(COMMAND_PROBLEM, path, path, splitted);
-	// exit_error(1, 1, path, splitted);
 }
 
 /*void	child_command(int input, char *command, char **env, int output)
@@ -70,22 +74,31 @@ void	output_command(int input, char *command, char **env, char *output)
 	int		fd;
 	int		index;
 
+	/* Dividimos el comando con sus argumentos */
 	splitted = divide_arguments(command);
 	if (!splitted)
 		exit_child(MEMORY_PROBLEM, NULL, NULL, NULL);
+
+	/* Conseguimos el índice de la parte en la que este las variables del PATH, y conseguimos el path completo del comando */
 	index = get_path_index(env);
 	if (index == -1)
 		exit_child(ENV_PROBLEM, NULL, NULL, splitted);
 	path = find_path(splitted[0], env[index]);
 	if (!path)
 		exit_child(NO_COMMAND, command, NULL, splitted);
+	
+	/* Abrimos el archivo de entrada */
 	fd = open(output, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd < 0)
 		exit_child(NO_FILE, output, path, splitted);
+	
+	/* Redirigimos las entradas y salidas */
 	dup2(input, STDIN_FILENO);
-	close (input);
 	dup2(fd, STDOUT_FILENO);
+	close (input);
 	close (fd);
+
+	/* Ejecutamos el comando */
 	if (execve(path, splitted, env) == -1)
 		exit_child(COMMAND_PROBLEM, path, path, splitted);
 }

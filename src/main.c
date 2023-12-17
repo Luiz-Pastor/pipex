@@ -24,13 +24,11 @@ int	manage(char **argv, char **env, char *input, char *output)
 	/* Abrimos el pipe */
 	if (pipe(fd))
 		exit_parent(NULL);
-	// exit_error(1, 1, NULL, NULL);
 
 	/* NOTE: primer fork */
 	pid[0] = fork();
 	if (pid[0] < 0)
 		exit_parent(fd);
-	// exit_error(1, 1, NULL, NULL);
 	if (!pid[0])
 	{
 		close(fd[0]);
@@ -41,14 +39,13 @@ int	manage(char **argv, char **env, char *input, char *output)
 	pid[1] = fork();
 	if (pid[1] < 0)
 		exit_parent(fd);
-	// exit_error(1, 1, NULL, NULL);
 	if (!pid[1])
 	{
 		close(fd[1]);
 		output_command(fd[0], argv[3], env, output);
 	}
 
-	/* Cerramos el pipe desde el padre */
+	/* Cerramos el pipe del padre */
 	close(fd[0]);
 	close(fd[1]);
 
