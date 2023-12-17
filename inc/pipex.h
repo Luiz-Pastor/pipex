@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/13 08:07:17 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/17 00:56:34 by luiz_ubuntu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 # include "../libft/libft.h"
 
 typedef struct s_pipex t_pipex;
-
 struct s_pipex {
 	char	*input;
 	char	*output;
@@ -40,6 +39,14 @@ struct s_pipex {
 
 	char	**argv;
 	char	**env;
+};
+
+enum {
+	NONE = 0,
+	NO_FILE,
+	NO_COMMAND,
+	COMMAND_PROBLEM,
+	MEMORY_PROBLEM
 };
 
 int		get_path_index(char **env);

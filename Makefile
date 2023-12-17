@@ -9,7 +9,8 @@ SRC =	main.c		\
 		path.c		\
 		arguments.c	\
 		utils.c		\
-		executes.c
+		executes.c	\
+		exit.c
 SRC_FOLDER = src
 OBJ=$(SRC:%.c=%.o)
 
