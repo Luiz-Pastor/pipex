@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:09:44 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/08 00:58:40 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/13 13:09:12 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,17 @@ static char	*get_full_path(char *path, char *command)
 	return (full_path);
 }
 
+static int	is_full_path(char *path)
+{
+	if (!ft_strncmp(path, "/", 1))
+		return (1);
+	if (!ft_strncmp(path, "./", 2))
+		return (1);
+	if (!ft_strncmp(path, "../", 3))
+		return (1);
+	return (0);
+}
+
 char	*find_path(char *command, char *paths)
 {
 	char	*full_path;
@@ -49,7 +60,7 @@ char	*find_path(char *command, char *paths)
 
 	index = 0;
 	res = NULL;
-	if (access(command, X_OK) == 0)
+	if (is_full_path(command))
 		return (ft_strdup(command));
 	splited = ft_split(paths + 5, ':');
 	while (splited[index])

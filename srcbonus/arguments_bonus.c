@@ -6,7 +6,7 @@
 /*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 08:08:53 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/08 00:58:05 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/17 12:05:40 by luiz_ubuntu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	**get_arguments(char *command)
 			return (free_array(arguments));
 		arguments = add_argument(arguments, new);
 		if (!arguments)
-			return (free(new), NULL);
+			return (free_array(arguments), free(new), NULL);
 	}
 	if (!arguments)
 		arguments = ft_calloc(sizeof(char *), 1);
@@ -109,6 +109,8 @@ char	**divide_arguments(char *command)
 		return (NULL);
 	}
 	arguments = add_argument(arguments, cmd);
+	if (!arguments)
+		return (NULL);
 	move_last_first(arguments);
 	return (arguments);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/11 08:55:42 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/11 08:55:42 by lpastor-         ###   ########.fr       */
+/*   Created: 2023/12/11 08:54:55 by lpastor-          #+#    #+#             */
+/*   Updated: 2023/12/11 08:54:55 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,6 @@ void	*free_array(char **arr)
 		free(arr[index++]);
 	free(arr);
 	return (NULL);
-}
-
-void	exit_error(int flag, int end, char *path, char **arg)
-{
-	if (path)
-		free(path);
-	if (arg)
-		free_array(arg);
-	if (flag)
-		perror("Error");
-	exit(end);
 }
 
 int	ft_isspace(char ch)
@@ -59,4 +48,18 @@ char	*stract_word(char *string, char it, int *index, int inc)
 	else
 		new = ft_substr(string, start, (*index) - start);
 	return (new);
+}
+
+void	close_pipe(int *fd)
+{
+	if (!fd)
+		return ;
+	close(fd[0]);
+	close(fd[1]);
+}
+
+void	wait_childs(int *pid, int *status)
+{
+	waitpid(pid[0], &status[0], 0);
+	waitpid(pid[1], &status[1], 0);
 }
