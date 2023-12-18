@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
 #include "../inc/pipex.h"
-#include <sys/errno.h>
 
 int	manage(char **argv, char **env, char *input, char *output)
 {

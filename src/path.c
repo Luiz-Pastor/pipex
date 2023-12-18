@@ -6,12 +6,11 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:09:44 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/13 13:09:12 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/18 09:43:08 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
-#include <stdio.h>
 
 int	get_path_index(char **env)
 {

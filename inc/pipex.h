@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/18 08:58:17 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/18 09:42:45 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,6 @@
 # include <fcntl.h>
 
 # include "../libft/libft.h"
-
-typedef struct s_pipex t_pipex;
-struct s_pipex {
-	char	*input;
-	char	*output;
-	
-	int		fd_in;
-	int		fd_out;
-
-	char	**argv;
-	char	**env;
-};
 
 enum {
 	NO_FILE = 0,
