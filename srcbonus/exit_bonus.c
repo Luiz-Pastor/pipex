@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 00:55:21 by luiz_ubuntu       #+#    #+#             */
-/*   Updated: 2023/12/18 09:42:18 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:39:51 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	exit_child(int event, char *content, char *path, char **arguments)
 	{
 		write(1, content, ft_strlen(content));
 		write(1, ": command not found\n", 21);
+		exit(127);
 	}
 	else if (event == COMMAND_PROBLEM)
 		perror(content);

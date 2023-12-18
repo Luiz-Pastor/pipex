@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 08:04:14 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/18 09:42:15 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/18 13:05:32 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ void	input_command(char *input, char *command, char **env, int output)
 	int		fd;
 	int		index;
 
+	fd = open(input, O_RDONLY);
+	if (fd < 0)
+		exit_child(NO_FILE, input, NULL, NULL);
 	splitted = divide_arguments(command);
 	if (!splitted)
 		exit_child(MEMORY_PROBLEM, NULL, NULL, NULL);
@@ -28,9 +31,6 @@ void	input_command(char *input, char *command, char **env, int output)
 	path = find_path(splitted[0], env[index]);
 	if (!path)
 		exit_child(NO_COMMAND, command, NULL, splitted);
-	fd = open(input, O_RDONLY);
-	if (fd < 0)
-		exit_child(NO_FILE, input, path, splitted);
 	dup2(fd, STDIN_FILENO);
 	dup2(output, STDOUT_FILENO);
 	close(fd);
@@ -69,6 +69,9 @@ void	output_command(int input, char *command, char **env, char *output)
 	int		fd;
 	int		index;
 
+	fd = open(output, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (fd < 0)
+		exit_child(NO_FILE, output, NULL, NULL);
 	splitted = divide_arguments(command);
 	if (!splitted)
 		exit_child(MEMORY_PROBLEM, NULL, NULL, NULL);
@@ -78,9 +81,6 @@ void	output_command(int input, char *command, char **env, char *output)
 	path = find_path(splitted[0], env[index]);
 	if (!path)
 		exit_child(NO_COMMAND, command, NULL, splitted);
-	fd = open(output, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (fd < 0)
-		exit_child(NO_FILE, output, path, splitted);
 	dup2(input, STDIN_FILENO);
 	dup2(fd, STDOUT_FILENO);
 	close (input);

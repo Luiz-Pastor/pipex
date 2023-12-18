@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 08:56:47 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/18 09:42:24 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/18 12:50:21 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*here_doc(char *delimiter)
 
 	if (!delimiter)
 		return (NULL);
-	path = ft_calloc(15, sizeof(char));
+	path = ft_calloc(16, sizeof(char));
 	if (!path)
 		return (NULL);
 	ft_strcpy(path, "/tmp/pipex.log");
