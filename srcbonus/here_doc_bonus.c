@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 08:56:47 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/18 12:50:21 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/18 20:20:42 by luiz_ubuntu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex_bonus.h"
 
-void	check_heredoc(char **argv)
+void	check_heredoc(t_pipex *data)
 {
-	if (strcmp(argv[0], "here_doc"))
+	if (!data->is_heredoc)
 		return ;
 	unlink("/tmp/pipex.log");
 }

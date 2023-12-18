@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/18 12:50:50 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/18 21:38:25 by luiz_ubuntu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,26 @@
 
 typedef struct s_pipex t_pipex;
 struct s_pipex {
+	/* Archivos de entrada y salida */
 	char	*input;
 	char	*output;
 	
+	/* Pipe actual y auxiliar */
+	int		last_pipe;
 	int		current_pipe[2];
-	int		prev_pipe[2];
 
-	pid_t	*pids;
-	int		returns;
+	/* Encadenamiento de pids, para esperar hasta el final */
+	pid_t	final_pid;
+	int		last_status;
 
+	/* Información inicial */
 	int		argc;
 	char	**argv;
 	char	**env;
 	int		cmds;
+
+	/* Here doc */
+	int		is_heredoc;
 };
 
 enum {
@@ -59,7 +66,7 @@ char	*find_path(char *command, char *paths);
 char	**divide_arguments(char *command);
 
 void	input_command(char *input, char *command, char **env, int output);
-void	child_command(int input, char *command, char **env, int output);
+void	middle_command(int input, char *command, char **env, int output);
 void	output_command(int input, char *command, char **env, char *output);
 
 int		ft_isspace(char ch);
@@ -69,10 +76,10 @@ void	exit_parent(int *fd);
 char	*stract_word(char *string, char it, int *index, int inc);
 
 void	close_pipe(int *fd);
-void	wait_childs(int *pid, int *status);
+void	wait_childs(t_pipex *data);
 
 /* Bonus */
 char	*here_doc(char *delimiter);
-void	check_heredoc(char **argv);
+void	check_heredoc(t_pipex *data);
 
 #endif

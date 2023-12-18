@@ -54,12 +54,27 @@ void	close_pipe(int *fd)
 {
 	if (!fd)
 		return ;
-	close(fd[0]);
+	if (fd[0] > 0)
+		close(fd[0]);
+	if (fd[1] > 0)
 	close(fd[1]);
 }
 
-void	wait_childs(int *pid, int *status)
+void	wait_childs(t_pipex *data)
 {
-	waitpid(pid[0], &status[0], 0);
-	waitpid(pid[1], &status[1], 0);
+	pid_t	current_pid;
+	int		status;
+
+	while (1)
+	{
+		current_pid = waitpid(-1, &status, 0);
+		if (current_pid <= 0)
+			break ;
+
+		if (current_pid == data->final_pid)
+		{
+			if (WEXITSTATUS(status))
+				data->last_status = WEXITSTATUS(status);
+		}
+	}
 }

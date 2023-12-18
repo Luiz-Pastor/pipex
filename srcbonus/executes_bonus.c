@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executes_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 08:04:14 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/18 13:05:32 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:51:32 by luiz_ubuntu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	input_command(char *input, char *command, char **env, int output)
 		exit_child(COMMAND_PROBLEM, path, path, splitted);
 }
 
-void	child_command(int input, char *command, char **env, int output)
+void	middle_command(int input, char *command, char **env, int output)
 {
 	char	**splitted;
 	char	*path;
