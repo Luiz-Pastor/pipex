@@ -26,7 +26,7 @@ BONUS_FOLDER = srcbonus
 BONUS_OBJ=$(BONUS_SRC:%.c=%.o)
 ######################################################
 
-all: $(NAME)
+all: bonus #$(NAME)
 
 $(NAME): $(OBJ) libft/libft.a
 	$(CC) $^ -o $(NAME)
