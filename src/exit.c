@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 00:55:21 by luiz_ubuntu       #+#    #+#             */
-/*   Updated: 2023/12/17 12:46:56 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/18 08:58:22 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
-
-void	exit_error(int flag, int end, char *path, char **arg)
-{
-	if (path)
-		free(path);
-	if (arg)
-		free_array(arg);
-	if (flag)
-		perror("Error");
-	exit(end);
-}
 
 void	exit_child(int event, char *content, char *path, char **arguments)
 {

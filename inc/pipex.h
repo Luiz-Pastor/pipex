@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/17 12:42:48 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/18 08:58:17 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	output_command(int input, char *command, char **env, char *output);
 
 int		ft_isspace(char ch);
 void	*free_array(char **arr);
-void	exit_error(int flag, int end, char *path, char **arg);
 void	exit_child(int event, char *content, char *path, char **arguments);
 void	exit_parent(int *fd);
 char	*stract_word(char *string, char it, int *index, int inc);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executes.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 08:04:14 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/17 12:04:40 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/18 08:56:39 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,26 +47,6 @@ void	input_command(char *input, char *command, char **env, int output)
 	if (execve(path, splitted, env) == -1)
 		exit_child(COMMAND_PROBLEM, path, path, splitted);
 }
-
-/*void	child_command(int input, char *command, char **env, int output)
-{
-	char	**splitted;
-	char	*path;
-
-	splitted = divide_arguments(command);
-	if (!splitted)
-		exit_error(1, 1, NULL, NULL);
-	path = find_path(splitted[0], env[get_path_index(env)]);
-	if (!path)
-		exit_error(1, 1, NULL, splitted);
-	dup2(input, STDIN_FILENO);
-	close (input);
-	dup2(output, STDOUT_FILENO);
-	close (output);
-	if (execve(path, splitted, env) == -1)
-		exit_error(1, 1, path, splitted);
-}*/
-
 void	output_command(int input, char *command, char **env, char *output)
 {
 	char	**splitted;

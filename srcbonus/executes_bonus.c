@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executes.c                                         :+:      :+:    :+:   */
+/*   executes_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 08:04:14 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/17 12:39:30 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/18 08:57:45 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,28 @@ void	input_command(char *input, char *command, char **env, int output)
 		exit_child(COMMAND_PROBLEM, path, path, splitted);
 }
 
-/*void	child_command(int input, char *command, char **env, int output)
+void	child_command(int input, char *command, char **env, int output)
 {
 	char	**splitted;
 	char	*path;
+	int		index;
 
 	splitted = divide_arguments(command);
 	if (!splitted)
-		exit_error(1, 1, NULL, NULL);
-	path = find_path(splitted[0], env[get_path_index(env)]);
+		exit_child(MEMORY_PROBLEM, NULL, NULL, NULL);
+	index = get_path_index(env);
+	if (index == -1)
+		exit_child(ENV_PROBLEM, NULL, NULL, splitted);
+	path = find_path(splitted[0], env[index]);
 	if (!path)
-		exit_error(1, 1, NULL, splitted);
+		exit_child(NO_COMMAND, command, NULL, splitted);
 	dup2(input, STDIN_FILENO);
-	close (input);
 	dup2(output, STDOUT_FILENO);
-	close (output);
+	close(input);
+	close(output);
 	if (execve(path, splitted, env) == -1)
-		exit_error(1, 1, path, splitted);
-}*/
+		exit_child(COMMAND_PROBLEM, path, path, splitted);
+}
 
 void	output_command(int input, char *command, char **env, char *output)
 {

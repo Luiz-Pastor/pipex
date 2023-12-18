@@ -31,7 +31,7 @@ int	manage(char **argv, char **env, char *input, char *output)
 		close(fd[0]);
 		input_command(input, argv[2], env, fd[1]);
 	}
-	pid[1] = fork();
+	pid[1] = fork(); 
 	if (pid[1] < 0)
 		exit_parent(fd);
 	if (!pid[1])
