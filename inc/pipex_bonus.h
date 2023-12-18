@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/18 09:25:42 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/18 12:50:50 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,16 @@ struct s_pipex {
 	char	*input;
 	char	*output;
 	
-	int		fd_in;
-	int		fd_out;
-	int		fd_next;
+	int		current_pipe[2];
+	int		prev_pipe[2];
 
+	pid_t	*pids;
+	int		returns;
+
+	int		argc;
 	char	**argv;
 	char	**env;
+	int		cmds;
 };
 
 enum {
