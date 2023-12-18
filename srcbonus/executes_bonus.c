@@ -6,11 +6,11 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 08:04:14 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/18 08:57:45 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/18 09:42:15 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "../inc/pipex_bonus.h"
 
 void	input_command(char *input, char *command, char **env, int output)
 {

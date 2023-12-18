@@ -6,11 +6,11 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 08:56:47 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/11 11:16:12 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/18 09:42:24 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "../inc/pipex_bonus.h"
 
 void	check_heredoc(char **argv)
 {

@@ -6,11 +6,11 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 00:55:21 by luiz_ubuntu       #+#    #+#             */
-/*   Updated: 2023/12/18 08:58:27 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/18 09:42:18 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "../inc/pipex_bonus.h"
 
 void	exit_child(int event, char *content, char *path, char **arguments)
 {

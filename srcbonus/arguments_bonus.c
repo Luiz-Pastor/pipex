@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arguments.c                                        :+:      :+:    :+:   */
+/*   arguments_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 08:08:53 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/17 12:05:40 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/18 09:42:08 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
-#include <stdio.h>
+#include "../inc/pipex_bonus.h"
 
 static char	*get_command(char *command)
 {

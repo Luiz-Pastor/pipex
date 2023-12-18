@@ -12,7 +12,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "../inc/pipex.h"
+#include "../inc/pipex_bonus.h"
 #include <sys/errno.h>
 
 int	manage(char **argv, char **env, char *input, char *output)
@@ -48,6 +48,7 @@ int	main(int argc, char *argv[], char *env[])
 {
 	char	*input;
 	int		count;
+	t_pipex	data;
 
 	count = 0;
 	if (argc < 5)
@@ -59,5 +60,6 @@ int	main(int argc, char *argv[], char *env[])
 	}
 	else
 		input = argv[1];
+	init_data(&data);
 	return (manage(argv + count, env, input, argv[argc - 1]));
 }
