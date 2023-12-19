@@ -21,12 +21,13 @@ BONUS_SRC =	main_bonus.c		\
 			utils_bonus.c		\
 			executes_bonus.c	\
 			exit_bonus.c		\
-			here_doc_bonus.c
+			here_doc_bonus.c	\
+			manage_commands.c
 BONUS_FOLDER = srcbonus
 BONUS_OBJ=$(BONUS_SRC:%.c=%.o)
 ######################################################
 
-all: bonus #$(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJ) libft/libft.a
 	$(CC) $^ -o $(NAME)
