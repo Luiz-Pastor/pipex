@@ -37,64 +37,21 @@ static void	init_files(t_pipex *data, char *infile, char *outfile)
 	data->output = outfile;
 }
 
-/*int	manage(t_pipex *data)
-{
-	int	pid[2];
-	int	fd[2];
-	int	status[2];
-
-	if (pipe(fd))
-		exit_parent(NULL);
-	pid[0] = fork();
-	if (pid[0] < 0)
-		exit_parent(fd);
-	if (!pid[0])
-	{
-		close(fd[0]);
-		input_command(data->input, data->argv[2], data->env, fd[1]);
-	}
-	pid[1] = fork(); 
-	if (pid[1] < 0)
-		exit_parent(fd);
-	if (!pid[1])
-	{
-		close(fd[1]);
-		output_command(fd[0], data->argv[3], data->env, data->output);
-	}
-	close_pipe(fd);
-	wait_childs(pid, status);
-	exit(WEXITSTATUS(status[1]));
-}*/
-
 void	first_command(t_pipex *data)
 {
 	pid_t	pid;
 
-	/* Creamos el pipe, y lo guardamos */
 	if (pipe(data->current_pipe) < 0)
 		exit_parent(NULL);
-	
-	/* Obtenemos el primer proceso para el primer hijo */
 	pid = fork();
 	if (pid < 0)
 		exit_parent(data->current_pipe);
-	
-	/* Nos guardamos el pid del comando, por si fuera el último */
 	data->final_pid = pid;
 	if (!pid)
 	{
-		/* Proceso hijo. Cerramos el pipe de lectura y ejecutamos el comando */
 		close(data->current_pipe[0]);
-
-		// printf("=> First input: [%s]\n", data->input);
-		// printf("=> Command: [%s]\n", data->argv[1]);
-		// printf("=> Env: [%p]\n", data->env);
-		// printf("=> Output: [%d]\n", data->current_pipe[1]);
-
 		input_command(data->input, data->argv[1], data->env, data->current_pipe[1]);
 	}
-
-	/* Padre. Cerramos le pipe de escritura y nos guardamos el de lectura para los siguientes hijos */
 	data->last_pipe = data->current_pipe[0];
 	close(data->current_pipe[1]);
 }
@@ -107,7 +64,6 @@ void	child_command(t_pipex *data)
 	index = 0;
 	while (index < data->cmds)
 	{
-		// printf("\t=> Current command (%d): [%s]\n", index, data->argv[index + 2]);
 		if (pipe(data->current_pipe))
 		{
 			close(data->last_pipe);
@@ -115,15 +71,17 @@ void	child_command(t_pipex *data)
 		}
 		current_pid = fork();
 		if (current_pid < 0)
+		{
+			close(data->last_pipe);
 			exit_parent(data->current_pipe);
+		}
 		if (!current_pid)
 		{
-			/* Se ejecuta el comando intermedio */
-			/* Cerramos la entrada de lectura */
 			close(data->current_pipe[0]);
 			middle_command(data->last_pipe, data->argv[index + 1], data->env, data->current_pipe[1]);
 		}
 
+		close(data->last_pipe);
 		data->last_pipe = data->current_pipe[0];
 		close(data->current_pipe[1]);
 		index++;
@@ -142,14 +100,8 @@ void	last_command(t_pipex *data)
 	}
 	data->final_pid = pid;
 	if (!pid)
-	{
-		// printf("# Infile: [%d]\n", data->last_pipe);
-		// printf("# Last command: [%s]\n", data->argv[data->argc - 3]);
-		// printf("# Env: [%p]\n", data->env);
-		// printf("# Outfile: [%s]\n", data->output);
-
 		output_command(data->last_pipe, data->argv[data->argc - 3], data->env, data->output);
-	}
+	close(data->last_pipe);
 }
 
 int manage(t_pipex *data)
@@ -158,9 +110,7 @@ int manage(t_pipex *data)
 	check_heredoc(data);
 	child_command(data);
 	last_command(data);
-
 	wait_childs(data);
-
 	exit(data->last_status);
 }
 
@@ -179,4 +129,3 @@ int	main(int argc, char *argv[], char *env[])
 	init_files(&data, input, argv[argc - 1]);
 	return (manage(&data));
 }
-//return (manage(argv + count, env, input, argv[argc - 1]));
