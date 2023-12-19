@@ -57,7 +57,7 @@ void	close_pipe(int *fd)
 	if (fd[0] > 0)
 		close(fd[0]);
 	if (fd[1] > 0)
-	close(fd[1]);
+		close(fd[1]);
 }
 
 void	wait_childs(t_pipex *data)
@@ -70,7 +70,6 @@ void	wait_childs(t_pipex *data)
 		current_pid = waitpid(-1, &status, 0);
 		if (current_pid <= 0)
 			break ;
-
 		if (current_pid == data->final_pid)
 		{
 			if (WEXITSTATUS(status))

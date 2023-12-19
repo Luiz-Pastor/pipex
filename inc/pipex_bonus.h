@@ -3,53 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/18 21:38:25 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/19 08:34:41 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
-/* Gestion variada */
 # include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
 # include <string.h>
-
-/* wait / waitpid */
 # include <sys/types.h>
 # include <sys/wait.h>
-
-/* Gestion de archivos */
 # include <unistd.h>
 # include <fcntl.h>
 
 # include "../libft/libft.h"
 
-typedef struct s_pipex t_pipex;
+typedef struct s_pipex	t_pipex;
 struct s_pipex {
-	/* Archivos de entrada y salida */
-	char	*input;
-	char	*output;
-	
-	/* Pipe actual y auxiliar */
-	int		last_pipe;
-	int		current_pipe[2];
-
-	/* Encadenamiento de pids, para esperar hasta el final */
-	pid_t	final_pid;
-	int		last_status;
-
-	/* Información inicial */
 	int		argc;
 	char	**argv;
 	char	**env;
+	char	*input;
+	char	*output;	
+	int		last_pipe;
+	int		current_pipe[2];
+	pid_t	final_pid;
+	int		last_status;
 	int		cmds;
-
-	/* Here doc */
 	int		is_heredoc;
 };
 
@@ -65,6 +51,10 @@ int		get_path_index(char **env);
 char	*find_path(char *command, char *paths);
 char	**divide_arguments(char *command);
 
+void	first_command(t_pipex *data);
+void	child_command(t_pipex *data);
+void	last_command(t_pipex *data);
+
 void	input_command(char *input, char *command, char **env, int output);
 void	middle_command(int input, char *command, char **env, int output);
 void	output_command(int input, char *command, char **env, char *output);
@@ -78,7 +68,6 @@ char	*stract_word(char *string, char it, int *index, int inc);
 void	close_pipe(int *fd);
 void	wait_childs(t_pipex *data);
 
-/* Bonus */
 char	*here_doc(char *delimiter);
 void	check_heredoc(t_pipex *data);
 
