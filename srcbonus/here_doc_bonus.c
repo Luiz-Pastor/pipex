@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 08:56:47 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/18 20:20:42 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/19 09:24:28 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	check_heredoc(t_pipex *data)
 {
 	if (!data->is_heredoc)
 		return ;
-	unlink("/tmp/pipex.log");
+	unlink(data->input);
+	free(data->input);
 }
 
 int	read_data(int fd, char *delimiter)
@@ -52,7 +53,7 @@ char	*here_doc(char *delimiter)
 	if (!path)
 		return (NULL);
 	ft_strcpy(path, "/tmp/pipex.log");
-	fd = open(path, O_WRONLY | O_CREAT, 0777);
+	fd = open(path, O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
 	{
 		free(path);

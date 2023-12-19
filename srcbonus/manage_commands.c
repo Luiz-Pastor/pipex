@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 08:23:59 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/19 08:32:05 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/19 09:34:28 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	last_command(t_pipex *data)
 	pid_t	pid;
 	int		input;
 	char	*output;
+	int		command_pos;
 
 	pid = fork();
 	if (pid < 0)
@@ -94,7 +95,8 @@ void	last_command(t_pipex *data)
 	{
 		input = data->last_pipe;
 		output = data->output;
-		output_command(input, data->argv[data->argc - 3], data->env, output);
+		command_pos = data->argc - 3 - data->is_heredoc;
+		output_command(input, data->argv[command_pos], data->env, output);
 	}
 	close(data->last_pipe);
 }

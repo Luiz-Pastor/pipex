@@ -39,10 +39,10 @@ static void	init_files(t_pipex *data, char *infile, char *outfile)
 int	manage(t_pipex *data)
 {
 	first_command(data);
-	check_heredoc(data);
 	child_command(data);
 	last_command(data);
 	wait_childs(data);
+	check_heredoc(data);
 	exit(data->last_status);
 }
 
