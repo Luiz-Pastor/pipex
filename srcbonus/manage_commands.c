@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 08:23:59 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/19 09:34:28 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:07:28 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	child_command(t_pipex *data)
 			close(data->current_pipe[0]);
 			input = data->last_pipe;
 			output = data->current_pipe[1];
-			middle_command(input, data->argv[index + 1], data->env, output);
+			middle_command(input, data->argv[index + 2], data->env, output);
 		}
 		close(data->last_pipe);
 		data->last_pipe = data->current_pipe[0];
