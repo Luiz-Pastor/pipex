@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/19 08:34:41 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/20 19:51:06 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	last_command(t_pipex *data);
 
 void	input_command(char *input, char *command, char **env, int output);
 void	middle_command(int input, char *command, char **env, int output);
-void	output_command(int input, char *command, char **env, char *output);
+void	output_command(int input, char *command, char **env, t_pipex *data);
 
 int		ft_isspace(char ch);
 void	*free_array(char **arr);

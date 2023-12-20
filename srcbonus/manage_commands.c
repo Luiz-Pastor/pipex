@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 08:23:59 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/20 10:07:28 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/20 19:53:11 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	last_command(t_pipex *data)
 {
 	pid_t	pid;
 	int		input;
-	char	*output;
 	int		command_pos;
 
 	pid = fork();
@@ -94,9 +93,8 @@ void	last_command(t_pipex *data)
 	if (!pid)
 	{
 		input = data->last_pipe;
-		output = data->output;
 		command_pos = data->argc - 3 - data->is_heredoc;
-		output_command(input, data->argv[command_pos], data->env, output);
+		output_command(input, data->argv[command_pos], data->env, data);
 	}
 	close(data->last_pipe);
 }
