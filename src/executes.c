@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 08:04:14 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/21 08:49:38 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/21 09:26:15 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	input_command(t_pipex *data, char *command)
 	dup2(data->fd[1], STDOUT_FILENO);
 	close(data->fd[1]);
 	if (execve(data->path, data->splitted, data->env) == -1)
-		exit_child(COMMAND_PROBLEM, data->path, fd, data);
+		exit_child(COMMAND_PROBLEM, data->path, -1, data);
 }
 
 void	output_command(t_pipex *data, char *command)
@@ -64,5 +64,5 @@ void	output_command(t_pipex *data, char *command)
 	close (data->fd[0]);
 	close (fd);
 	if (execve(data->path, data->splitted, data->env) == -1)
-		exit_child(COMMAND_PROBLEM, data->path, fd, data);
+		exit_child(COMMAND_PROBLEM, data->path, -1, data);
 }

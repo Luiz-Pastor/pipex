@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/21 08:38:46 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/21 09:46:17 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,16 @@
 
 typedef struct s_pipex
 {
-	int argc;
-	char **argv;
-	char **env;
-
+	int		argc;
+	char	**argv;
+	char	**env;
 	char	*input;
 	char	*output;
-
-	int	fd[2];
-	int	pid[2];
-
+	int		fd[2];
+	int		pid[2];
 	char	*path;
 	char	**splitted;
-} t_pipex;
+}				t_pipex;
 
 enum {
 	NO_FILE = 0,

@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 08:04:14 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/21 09:44:01 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/21 09:45:30 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	init_fields(t_pipex *data)
 static void	get_data(t_pipex *data, char *command, int fd1, int fd2)
 {
 	int	index;
-	
+
 	data->splitted = divide_arguments(command);
 	if (!data->splitted)
 	{

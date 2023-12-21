@@ -51,7 +51,7 @@ int	manage(t_pipex *data)
 
 int	main(int argc, char *argv[], char *env[])
 {
-	t_pipex data;
+	t_pipex	data;
 
 	if (argc != 5)
 		return (write(1, "Usage: ./pipex infile cmd1 cmd2 outfile\n", 40));

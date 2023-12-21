@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/20 19:51:06 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/21 09:26:29 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ struct s_pipex {
 	int		last_status;
 	int		cmds;
 	int		is_heredoc;
+	char	*path;
+	char	**splitted;
 };
 
 enum {
@@ -55,17 +57,17 @@ void	first_command(t_pipex *data);
 void	child_command(t_pipex *data);
 void	last_command(t_pipex *data);
 
-void	input_command(char *input, char *command, char **env, int output);
-void	middle_command(int input, char *command, char **env, int output);
-void	output_command(int input, char *command, char **env, t_pipex *data);
+void	input_command(t_pipex *data, char *command);
+void	middle_command(t_pipex *data, char *command);
+void	output_command(t_pipex *data, char *command);
 
 int		ft_isspace(char ch);
 void	*free_array(char **arr);
-void	exit_child(int event, char *content, char *path, char **arguments);
+void	exit_child(int event, char *content, t_pipex *data);
 void	exit_parent(int *fd);
 char	*stract_word(char *string, char it, int *index, int inc);
 
-void	close_pipe(int *fd);
+void	close_files(int fd1, int fd2);
 void	wait_childs(t_pipex *data);
 
 char	*here_doc(char *delimiter);
