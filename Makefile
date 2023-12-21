@@ -15,14 +15,14 @@ SRC_FOLDER = src
 OBJ=$(SRC:%.c=%.o)
 
 # Bonus part
-BONUS_SRC =	main_bonus.c		\
-			path_bonus.c		\
-			arguments_bonus.c	\
-			utils_bonus.c		\
-			executes_bonus.c	\
-			exit_bonus.c		\
-			here_doc_bonus.c	\
-			manage_commands.c
+BONUS_SRC =	main_bonus.c			\
+			path_bonus.c			\
+			arguments_bonus.c		\
+			utils_bonus.c			\
+			executes_bonus.c		\
+			exit_bonus.c			\
+			here_doc_bonus.c		\
+			manage_commands_bonus.c
 BONUS_FOLDER = srcbonus
 BONUS_OBJ=$(BONUS_SRC:%.c=%.o)
 ######################################################
