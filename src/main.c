@@ -12,38 +12,53 @@
 
 #include "../inc/pipex.h"
 
-int	manage(char **argv, char **env, char *input, char *output)
+void	first_command(t_pipex *data)
 {
-	int	pid[2];
-	int	fd[2];
+	data->pid[0] = fork();
+	if (data->pid[0] < 0)
+		exit_parent(data->fd);
+	if (!data->pid[0])
+	{
+		close(data->fd[0]);
+		input_command(data, data->argv[2]);
+	}
+}
+
+void	last_command(t_pipex *data)
+{
+	data->pid[1] = fork();
+	if (data->pid[1] < 0)
+		exit_parent(data->fd);
+	if (!data->pid[1])
+	{
+		close(data->fd[1]);
+		output_command(data, data->argv[3]);
+	}
+}
+
+int	manage(t_pipex *data)
+{
 	int	status[2];
 
-	if (pipe(fd))
+	if (pipe(data->fd))
 		exit_parent(NULL);
-	pid[0] = fork();
-	if (pid[0] < 0)
-		exit_parent(fd);
-	if (!pid[0])
-	{
-		close(fd[0]);
-		input_command(input, argv[2], env, fd[1]);
-	}
-	pid[1] = fork();
-	if (pid[1] < 0)
-		exit_parent(fd);
-	if (!pid[1])
-	{
-		close(fd[1]);
-		output_command(fd[0], argv[3], env, output);
-	}
-	close_pipe(fd);
-	wait_childs(pid, status);
+	first_command(data);
+	last_command(data);
+	close_pipe(data->fd);
+	wait_childs(data->pid, status);
 	exit(WEXITSTATUS(status[1]));
 }
 
 int	main(int argc, char *argv[], char *env[])
 {
+	t_pipex data;
+
 	if (argc != 5)
 		return (write(1, "Usage: ./pipex infile cmd1 cmd2 outfile\n", 40));
-	return (manage(argv, env, argv[1], argv[argc - 1]));
+	data.argv = argv;
+	data.argc = argc;
+	data.env = env;
+	data.input = argv[1];
+	data.output = argv[argc - 1];
+	return (manage(&data));
 }

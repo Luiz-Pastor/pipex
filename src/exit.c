@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 00:55:21 by luiz_ubuntu       #+#    #+#             */
-/*   Updated: 2023/12/18 18:22:45 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/21 08:29:53 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 
-void	exit_child(int event, char *content, char *path, char **arguments)
+void	exit_child(int event, char *content, int fd, t_pipex *data)
 {
 	if (event == NO_FILE)
 		perror(content);
@@ -27,10 +27,12 @@ void	exit_child(int event, char *content, char *path, char **arguments)
 		write(1, "Environment error: insufficient information\n", 45);
 	else
 		perror("Memory error");
-	if (path)
-		free(path);
-	if (arguments)
-		free_array(arguments);
+	if (data->path)
+		free(data->path);
+	if (data->splitted)
+		free_array(data->splitted);
+	if (fd > 0)
+		close(fd);
 	if (event == NO_COMMAND)
 		exit(127);
 	exit(1);
