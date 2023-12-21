@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 08:23:59 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/20 19:53:11 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/21 09:28:07 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ int	init_child(t_pipex *data)
 void	first_command(t_pipex *data)
 {
 	pid_t	pid;
-	char	*input;
-	int		output;
 
 	if (pipe(data->current_pipe) < 0)
 		exit_parent(NULL);
@@ -44,9 +42,7 @@ void	first_command(t_pipex *data)
 	if (!pid)
 	{
 		close(data->current_pipe[0]);
-		input = data->input;
-		output = data->current_pipe[1];
-		input_command(input, data->argv[1], data->env, output);
+		input_command(data, data->argv[1]);
 	}
 	data->last_pipe = data->current_pipe[0];
 	close(data->current_pipe[1]);
@@ -56,8 +52,6 @@ void	child_command(t_pipex *data)
 {
 	pid_t	current_pid;
 	int		index;
-	int		input;
-	int		output;
 
 	index = 0;
 	while (index < data->cmds)
@@ -66,9 +60,7 @@ void	child_command(t_pipex *data)
 		if (!current_pid)
 		{
 			close(data->current_pipe[0]);
-			input = data->last_pipe;
-			output = data->current_pipe[1];
-			middle_command(input, data->argv[index + 2], data->env, output);
+			middle_command(data, data->argv[index + 2]);
 		}
 		close(data->last_pipe);
 		data->last_pipe = data->current_pipe[0];
@@ -80,7 +72,6 @@ void	child_command(t_pipex *data)
 void	last_command(t_pipex *data)
 {
 	pid_t	pid;
-	int		input;
 	int		command_pos;
 
 	pid = fork();
@@ -92,9 +83,8 @@ void	last_command(t_pipex *data)
 	data->final_pid = pid;
 	if (!pid)
 	{
-		input = data->last_pipe;
 		command_pos = data->argc - 3 - data->is_heredoc;
-		output_command(input, data->argv[command_pos], data->env, data);
+		output_command(data, data->argv[command_pos]);
 	}
 	close(data->last_pipe);
 }

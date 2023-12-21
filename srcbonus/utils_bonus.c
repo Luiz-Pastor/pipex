@@ -50,14 +50,12 @@ char	*stract_word(char *string, char it, int *index, int inc)
 	return (new);
 }
 
-void	close_pipe(int *fd)
+void	close_files(int fd1, int fd2)
 {
-	if (!fd)
-		return ;
-	if (fd[0] > 0)
-		close(fd[0]);
-	if (fd[1] > 0)
-		close(fd[1]);
+	if (fd1 > 0)
+		close(fd1);
+	if (fd2 > 0)
+		close(fd2);
 }
 
 void	wait_childs(t_pipex *data)
