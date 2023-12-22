@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/21 09:26:29 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/22 08:10:06 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ enum {
 	ENV_PROBLEM
 };
 
+int		is_full_path(char *path);
 int		get_path_index(char **env);
 char	*find_path(char *command, char *paths);
 char	**divide_arguments(char *command);

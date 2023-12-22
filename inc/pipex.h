@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/21 09:46:17 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/22 08:08:23 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ enum {
 int		get_path_index(char **env);
 char	*find_path(char *command, char *paths);
 char	**divide_arguments(char *command);
+int		is_full_path(char *path);
 void	input_command(t_pipex *data, char *command);
 void	output_command(t_pipex *data, char *command);
 int		ft_isspace(char ch);

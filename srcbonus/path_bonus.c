@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiz_ubuntu <luiz_ubuntu@student.42.fr>    +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:09:44 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/18 18:28:16 by luiz_ubuntu      ###   ########.fr       */
+/*   Updated: 2023/12/22 08:14:23 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	get_path_index(char **env)
 	index = 0;
 	while (env[index])
 	{
-		if (!strncmp(env[index], "PATH", 4))
+		if (!ft_strncmp(env[index], "PATH=", 5))
 			return (index);
 		index++;
 	}
@@ -39,7 +39,7 @@ static char	*get_full_path(char *path, char *command)
 	return (full_path);
 }
 
-static int	is_full_path(char *path)
+int	is_full_path(char *path)
 {
 	if (!ft_strncmp(path, "/", 1))
 		return (1);
@@ -59,15 +59,13 @@ char	*find_path(char *command, char *paths)
 
 	index = 0;
 	res = NULL;
-	if (is_full_path(command))
-		return (ft_strdup(command));
 	splited = ft_split(paths + 5, ':');
 	while (splited[index])
 	{
 		full_path = get_full_path(splited[index++], command);
 		if (!full_path)
 			return (free_split(splited));
-		if (access(full_path, X_OK) == 0)
+		if (access(full_path, F_OK) == 0)
 		{
 			res = full_path;
 			break ;

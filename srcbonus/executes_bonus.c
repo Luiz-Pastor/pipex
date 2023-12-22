@@ -6,13 +6,12 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 08:04:14 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/21 09:45:30 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/22 08:12:33 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex_bonus.h"
 
-/* TODO: exit_child */
 static void	init_fields(t_pipex *data)
 {
 	data->path = NULL;
@@ -29,17 +28,22 @@ static void	get_data(t_pipex *data, char *command, int fd1, int fd2)
 		close_files(fd1, fd2);
 		exit_child(MEMORY_PROBLEM, NULL, data);
 	}
-	index = get_path_index(data->env);
-	if (index == -1)
+	if (is_full_path(data->splitted[0]))
+		data->path = ft_strdup(data->splitted[0]);
+	else
 	{
-		close_files(fd1, fd2);
-		exit_child(ENV_PROBLEM, NULL, data);
-	}
-	data->path = find_path(data->splitted[0], data->env[index]);
-	if (!data->path)
-	{
-		close_files(fd1, fd2);
-		exit_child(NO_COMMAND, command, data);
+		index = get_path_index(data->env);
+		if (index == -1)
+		{
+			close_files(fd1, fd2);
+			exit_child(ENV_PROBLEM, NULL, data);
+		}
+		data->path = find_path(data->splitted[0], data->env[index]);
+		if (!data->path)
+		{
+			close_files(fd1, fd2);
+			exit_child(NO_COMMAND, command, data);
+		}
 	}
 }
 

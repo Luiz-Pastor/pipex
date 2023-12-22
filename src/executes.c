@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 08:04:14 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/21 09:26:15 by lpastor-         ###   ########.fr       */
+/*   Updated: 2023/12/22 08:06:49 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,17 @@ static void	get_data(t_pipex *data, char *command, int fd)
 	data->splitted = divide_arguments(command);
 	if (!data->splitted)
 		exit_child(MEMORY_PROBLEM, NULL, fd, data);
-	index = get_path_index(data->env);
-	if (index == -1)
-		exit_child(ENV_PROBLEM, NULL, fd, data);
-	data->path = find_path(data->splitted[0], data->env[index]);
-	if (!data->path)
-		exit_child(NO_COMMAND, command, fd, data);
+	if (is_full_path(data->splitted[0]))
+		data->path = ft_strdup(data->splitted[0]);
+	else
+	{
+		index = get_path_index(data->env);
+		if (index == -1)
+			exit_child(ENV_PROBLEM, NULL, fd, data);
+		data->path = find_path(data->splitted[0], data->env[index]);
+		if (!data->path)
+			exit_child(NO_COMMAND, command, fd, data);
+	}
 }
 
 void	input_command(t_pipex *data, char *command)

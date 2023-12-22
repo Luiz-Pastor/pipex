@@ -36,7 +36,7 @@ static void	init_files(t_pipex *data, char *infile, char *outfile)
 	data->output = outfile;
 }
 
-int	manage(t_pipex *data)
+static int	manage(t_pipex *data)
 {
 	first_command(data);
 	child_command(data);
@@ -46,12 +46,21 @@ int	manage(t_pipex *data)
 	exit(data->last_status);
 }
 
+static int	check_arguments(int argc, char **argv)
+{
+	if (argc < 5)
+		return (0);
+	if (!ft_strcmp(argv[1], "here_doc") && argc < 6)
+		return (0);
+	return (1);
+}
+
 int	main(int argc, char *argv[], char *env[])
 {
 	char	*input;
 	t_pipex	data;
 
-	if (argc < 5)
+	if (!check_arguments(argc, argv))
 		return (write(1, "Usage: ./pipex infile cmd1 cmd2 outfile\n", 40));
 	if (!ft_strcmp(argv[1], "here_doc"))
 		input = here_doc(argv[2]);
