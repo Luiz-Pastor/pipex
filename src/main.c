@@ -12,6 +12,8 @@
 
 #include "../inc/pipex.h"
 
+#define BAD_ARGV "Usage: ./pipex infile cmd1 cmd2 outfile\n"
+
 void	first_command(t_pipex *data)
 {
 	data->pid[0] = fork();
@@ -54,7 +56,7 @@ int	main(int argc, char *argv[], char *env[])
 	t_pipex	data;
 
 	if (argc != 5)
-		return (write(1, "Usage: ./pipex infile cmd1 cmd2 outfile\n", 40));
+		return (write(1, BAD_ARGV, ft_strlen(BAD_ARGV)));
 	data.argv = argv;
 	data.argc = argc;
 	data.env = env;
