@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:10:03 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/22 08:10:06 by lpastor-         ###   ########.fr       */
+/*   Updated: 2024/02/12 15:37:14 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 # include "../libft/libft.h"
 
 typedef struct s_pipex	t_pipex;
-struct s_pipex {
+struct s_pipex
+{
 	int		argc;
 	char	**argv;
 	char	**env;
@@ -41,7 +42,8 @@ struct s_pipex {
 	char	**splitted;
 };
 
-enum {
+enum e_error
+{
 	NO_FILE = 0,
 	NO_COMMAND,
 	COMMAND_PROBLEM,
