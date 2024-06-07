@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executes_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 08:04:14 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/22 08:12:33 by lpastor-         ###   ########.fr       */
+/*   Updated: 2024/06/07 12:18:25 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ static void	get_data(t_pipex *data, char *command, int fd1, int fd2)
 		index = get_path_index(data->env);
 		if (index == -1)
 		{
-			close_files(fd1, fd2);
-			exit_child(ENV_PROBLEM, NULL, data);
+			data->path = ft_strdup(data->splitted[0]);
+			return ;
 		}
 		data->path = find_path(data->splitted[0], data->env[index]);
 		if (!data->path)
 		{
 			close_files(fd1, fd2);
-			exit_child(NO_COMMAND, command, data);
+			exit_child(MEMORY_PROBLEM, command, data);
 		}
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:09:44 by lpastor-          #+#    #+#             */
-/*   Updated: 2023/12/22 08:14:23 by lpastor-         ###   ########.fr       */
+/*   Updated: 2024/06/07 12:17:57 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,7 @@ static char	*get_full_path(char *path, char *command)
 
 int	is_full_path(char *path)
 {
-	if (!ft_strncmp(path, "/", 1))
-		return (1);
-	if (!ft_strncmp(path, "./", 2))
-		return (1);
-	if (!ft_strncmp(path, "../", 3))
-		return (1);
-	return (0);
+	return (ft_strchr(path, '\\') != NULL);
 }
 
 char	*find_path(char *command, char *paths)
