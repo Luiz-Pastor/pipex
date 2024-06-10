@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpastor- <lpastor-@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:09:44 by lpastor-          #+#    #+#             */
-/*   Updated: 2024/06/07 12:17:02 by lpastor-         ###   ########.fr       */
+/*   Updated: 2024/06/10 16:14:34 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*get_full_path(char *path, char *command)
 
 int	is_full_path(char *path)
 {
-	return (ft_strchr(path, '\\') != NULL);
+	return (ft_strchr(path, '/') != NULL);
 }
 
 char	*find_path(char *command, char *paths)
